@@ -7,7 +7,7 @@ data "aws_secretsmanager_secret_version" "current" {
 }
 
 resource "aws_amplify_app" "thomaskimble_frontend" {
-  name       = "thomaskimble_frontend"
+  name       = "thomaskimble-frontend"
   repository = "https://github.com/ThomasOliverKimble/thomaskimble-frontend"
 
   access_token = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["ThomasOliverKimble-github-aws-access-token"]
