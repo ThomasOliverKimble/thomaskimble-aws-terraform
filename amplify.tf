@@ -22,6 +22,10 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
     "*/**"
   ]
 
+  auto_branch_creation_config {
+    enable_auto_build = true
+  }
+
   build_spec = <<-EOT
     version: 0.1
     frontend:
@@ -40,4 +44,20 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
         paths:
           - node_modules/**/*
   EOT
+}
+
+resource "aws_amplify_branch" "main" {
+  app_id      = aws_amplify_app.thomaskimble_frontend.id
+  branch_name = "main"
+
+  framework = "React"
+  stage     = "PRODUCTION"
+}
+
+resource "aws_amplify_branch" "dev" {
+  app_id      = aws_amplify_app.thomaskimble_frontend.id
+  branch_name = "dev"
+
+  framework = "React"
+  stage     = "DEVELOPMENT"
 }
