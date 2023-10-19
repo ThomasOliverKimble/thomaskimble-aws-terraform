@@ -14,6 +14,18 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
 
   access_token = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["ThomasOliverKimble-github-aws-access-token"]
 
+  enable_branch_auto_build    = true
+  enable_branch_auto_deletion = true
+
+  auto_branch_creation_patterns = [
+    "*",
+    "*/**"
+  ]
+
+  auto_branch_creation_config = {
+    enable_auto_build = true
+  }
+
   build_spec = <<-EOT
     version: 0.1
     frontend:
