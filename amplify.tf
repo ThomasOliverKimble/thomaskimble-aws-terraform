@@ -7,7 +7,7 @@ data "aws_secretsmanager_secret_version" "current" {
 }
 
 output "secret_output" {
-  value = jsondecode(nonsensitive(data.aws_secretsmanager_secret_version.current.secret_string))
+  value = jsondecode(nonsensitive(data.aws_secretsmanager_secret_version.current.secret_string))["ThomasOliverKimble-github-aws-access-token"]
 }
 
 resource "aws_amplify_app" "thomaskimble_frontend" {
