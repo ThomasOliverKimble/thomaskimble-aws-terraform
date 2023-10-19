@@ -45,3 +45,19 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
           - node_modules/**/*
   EOT
 }
+
+resource "aws_amplify_branch" "main" {
+  app_id      = aws_amplify_app.thomaskimble_frontend.id
+  branch_name = "main"
+
+  framework = "React"
+  stage     = "PRODUCTION"
+}
+
+resource "aws_amplify_branch" "dev" {
+  app_id      = aws_amplify_app.thomaskimble_frontend.id
+  branch_name = "dev"
+
+  framework = "React"
+  stage     = "DEVELOPMENT"
+}
