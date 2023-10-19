@@ -10,7 +10,7 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
   name       = "thomaskimble_frontend"
   repository = "https://github.com/ThomasOliverKimble/thomaskimble-frontend"
 
-  access_token = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)
+  access_token = jsondecode(nonsensitive(data.aws_secretsmanager_secret_version.current.secret_string))
 
   build_spec = <<-EOT
     version: 0.1
