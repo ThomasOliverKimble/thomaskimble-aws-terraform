@@ -1,3 +1,4 @@
+# Secrets manager for GitHub access
 data "aws_secretsmanager_secret" "secret" {
   arn = "arn:aws:secretsmanager:eu-west-1:287212251408:secret:ThomasOliverKimble-github-aws-access-token-Smhr9D"
 }
@@ -6,6 +7,7 @@ data "aws_secretsmanager_secret_version" "current" {
   secret_id = data.aws_secretsmanager_secret.secret.id
 }
 
+# Applify setup
 resource "aws_amplify_app" "thomaskimble_frontend" {
   name       = "thomaskimble-frontend"
   repository = "https://github.com/ThomasOliverKimble/thomaskimble-frontend"
