@@ -26,7 +26,7 @@ resource "aws_acm_certificate_validation" "thomaskimble_certificate_validation" 
 }
 
 
-data "aws_route53_zone" "thomaskimble" {
+data "aws_route53_zone" "thomaskimble_zone" {
   name         = "thomaskimble.com"
   private_zone = false
 }
@@ -48,6 +48,6 @@ resource "aws_route53_record" "thomaskimble_records" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = data.aws_route53_zone.thomaskimble.zone_id
+  zone_id         = data.aws_route53_zone.thomaskimble_zone.zone_id
 }
 
