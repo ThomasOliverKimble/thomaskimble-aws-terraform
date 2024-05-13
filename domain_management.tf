@@ -13,9 +13,8 @@
 #   validation_record_fqdns = [for record in aws_route53_record.thomaskimble_records : record.fqdn]
 # }
 
-data "aws_route53_zone" "thomaskimble" {
-  name         = "thomaskimble.com"
-  private_zone = false
+resource "aws_route53_zone" "thomaskimble" {
+    name = "thomaskimble.com"
 }
 
 # resource "aws_route53_record" "thomaskimble_records" {
