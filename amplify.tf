@@ -36,7 +36,7 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
     source = "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|ttf|map|json)$)([^.]+$)/>"
     status = "200"
     target = "/index.html"
-  }
+  } 
 
   build_spec = <<-EOT
     version: 0.1
@@ -72,4 +72,27 @@ resource "aws_amplify_branch" "dev" {
 
   framework = "React"
   stage     = "DEVELOPMENT"
+}
+
+resource "aws_amplify_domain_association" "thomaskimble" {
+  app_id      = aws_amplify_app.thomaskimble_frontend.id
+  domain_name = "thomaskimble.com"
+
+  # # https://thomaskimble.com
+  # sub_domain {
+  #   branch_name = aws_amplify_branch.main.branch_name
+  #   prefix      = ""
+  # }
+
+  # # https://www.thomaskimble.com
+  # sub_domain {
+  #   branch_name = aws_amplify_branch.main.branch_name
+  #   prefix      = "www"
+  # }
+
+  # https://dev.thomaskimble.com
+  sub_domain {
+    branch_name = aws_amplify_branch.dev.branch_name
+    prefix      = "dev"
+  }
 }
