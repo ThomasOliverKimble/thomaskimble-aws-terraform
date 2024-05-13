@@ -36,7 +36,7 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
     source = "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|ttf|map|json)$)([^.]+$)/>"
     status = "200"
     target = "/index.html"
-  }
+  } 
 
   build_spec = <<-EOT
     version: 0.1
