@@ -26,6 +26,10 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
     enable_auto_build = true
   }
 
+  environment_variables = {
+    "_CUSTOM_IMAGE" = "amplify:al2"
+  }
+
   # Redirects for Single Page Web Apps (SPA)
   # https://docs.aws.amazon.com/amplify/latest/userguide/redirects.html#redirects-for-single-page-web-apps-spa
   custom_rule {
