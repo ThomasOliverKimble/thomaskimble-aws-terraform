@@ -36,7 +36,14 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
     source = "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|ttf|map|json)$)([^.]+$)/>"
     status = "200"
     target = "/index.html"
-  } 
+  }
+
+  # Setup redirect from https://thomaskimble.com to https://www.thomaskimble.com
+  custom_rule {
+    source = "https://thomaskimble.com"
+    status = "302"
+    target = "https://www.thomaskimble.com"
+  }
 
   build_spec = <<-EOT
     version: 0.1
