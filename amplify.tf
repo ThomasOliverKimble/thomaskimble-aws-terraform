@@ -80,17 +80,17 @@ resource "aws_amplify_domain_association" "thomaskimble" {
 
   wait_for_verification = false
 
-  # # https://thomaskimble.com
-  # sub_domain {
-  #   branch_name = aws_amplify_branch.main.branch_name
-  #   prefix      = ""
-  # }
+  # https://thomaskimble.com
+  sub_domain {
+    branch_name = aws_amplify_branch.main.branch_name
+    prefix      = ""
+  }
 
-  # # https://www.thomaskimble.com
-  # sub_domain {
-  #   branch_name = aws_amplify_branch.main.branch_name
-  #   prefix      = "www"
-  # }
+  # https://www.thomaskimble.com
+  sub_domain {
+    branch_name = aws_amplify_branch.main.branch_name
+    prefix      = "www"
+  }
 
   # https://dev.thomaskimble.com
   sub_domain {
