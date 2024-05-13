@@ -17,7 +17,7 @@ resource "aws_acm_certificate" "thomaskimble_certificate" {
 }
 
 resource "aws_acm_certificate_validation" "thomaskimble_certificate_validation" {
-  for_each             = aws_acm_certificate.thomaskimble_certificate
+  for_each = { for cert in aws_acm_certificate.thomaskimble_certificate : cert.domain_name => cert }
 
   certificate_arn      = each.value.arn
   validation_record_fqdns = [
