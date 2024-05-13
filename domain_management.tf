@@ -8,11 +8,6 @@ resource "aws_acm_certificate" "thomaskimble_certificate" {
     }
 }
 
-data "aws_route53_zone" "thomaskimble" {
-  name         = "thomaskimble.com"
-  private_zone = false
-}
-
 
 # variable "domains" {
 #     type = list
