@@ -26,14 +26,6 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
     enable_auto_build = true
   }
 
-  # Redirects for Single Page Web Apps (SPA)
-  # https://docs.aws.amazon.com/amplify/latest/userguide/redirects.html#redirects-for-single-page-web-apps-spa
-  custom_rule {
-    source = "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|ttf|map|json)$)([^.]+$)/>"
-    status = "200"
-    target = "/index.html"
-  }
-
   build_spec = <<-EOT
     version: 0.1
     frontend:
