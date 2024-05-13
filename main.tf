@@ -5,8 +5,8 @@ resource "aws_route53_zone" "thomaskimble" {
 variable "domains" {
     type = list
     default = [
-        "example.com",
-        "*.example.com",
+        "thomaskimble.com",
+        "*.thomaskimble.com",
     ]
 }
 
