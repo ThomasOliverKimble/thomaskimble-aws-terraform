@@ -77,27 +77,27 @@ resource "aws_amplify_branch" "dev" {
   stage     = "DEVELOPMENT"
 }
 
-resource "aws_amplify_domain_association" "thomaskimble" {
-  app_id      = aws_amplify_app.thomaskimble_frontend.id
-  domain_name = "thomaskimble.com"
+# resource "aws_amplify_domain_association" "thomaskimble" {
+#   app_id      = aws_amplify_app.thomaskimble_frontend.id
+#   domain_name = "thomaskimble.com"
 
-  wait_for_verification = false
+#   wait_for_verification = false
 
-  # https://thomaskimble.com
-  sub_domain {
-    branch_name = aws_amplify_branch.main.branch_name
-    prefix      = ""
-  }
+#   # https://thomaskimble.com
+#   sub_domain {
+#     branch_name = aws_amplify_branch.main.branch_name
+#     prefix      = ""
+#   }
 
-  # https://www.thomaskimble.com
-  sub_domain {
-    branch_name = aws_amplify_branch.main.branch_name
-    prefix      = "www"
-  }
+#   # https://www.thomaskimble.com
+#   sub_domain {
+#     branch_name = aws_amplify_branch.main.branch_name
+#     prefix      = "www"
+#   }
 
-  # https://dev.thomaskimble.com
-  sub_domain {
-    branch_name = aws_amplify_branch.dev.branch_name
-    prefix      = "dev"
-  }
-}
+#   # https://dev.thomaskimble.com
+#   sub_domain {
+#     branch_name = aws_amplify_branch.dev.branch_name
+#     prefix      = "dev"
+#   }
+# }
