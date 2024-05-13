@@ -1,4 +1,7 @@
-
+data "aws_route53_zone" "thomaskimble_zone" {
+  name         = "thomaskimble.com"
+  private_zone = false
+}
 
 
 # variable "domains" {
