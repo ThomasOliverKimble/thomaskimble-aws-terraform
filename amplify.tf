@@ -22,10 +22,6 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
     "*/**"
   ]
 
-  auto_branch_creation_config {
-    enable_auto_build = true
-  }
-
   environment_variables = {
     "_CUSTOM_IMAGE" = "amplify:al2"
   }
