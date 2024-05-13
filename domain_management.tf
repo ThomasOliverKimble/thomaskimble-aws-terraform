@@ -36,7 +36,7 @@ resource "aws_route53_record" "thomaskimble_records" {
 
 resource "aws_route53_record" "thomaskimble_github_pages_a_record" {
   zone_id = aws_route53_zone.thomaskimble_zone.zone_id
-  name    = "legacy"
+  name    = ""
   type    = "A"
   ttl     = 300
   records = ["185.199.108.153", "185.199.109.153", "185.199.110.153", "185.199.111.153"]
