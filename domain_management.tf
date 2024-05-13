@@ -34,7 +34,7 @@ resource "aws_route53_record" "thomaskimble_records" {
   zone_id         = aws_route53_zone.thomaskimble_zone.zone_id
 }
 
-resource "aws_route53_record" "thomaskimble_github_pages_cname_record" {
+resource "aws_route53_record" "thomaskimble_github_pages_record" {
   zone_id = aws_route53_zone.thomaskimble_zone.zone_id
   name    = "legacy"
   type    = "CNAME"
