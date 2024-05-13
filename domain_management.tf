@@ -1,4 +1,14 @@
-data "aws_route53_zone" "thomaskimble_zone" {
+resource "aws_acm_certificate" "thomaskimble_certificate" {
+    domain_name               = "thomaskimble.net"
+    subject_alternative_names = ["*.thomaskimble.net"]
+    validation_method         = "DNS"
+
+    lifecycle {
+        create_before_destroy = true
+    }
+}
+
+data "aws_route53_zone" "thomaskimble" {
   name         = "thomaskimble.com"
   private_zone = false
 }
