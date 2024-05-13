@@ -18,18 +18,12 @@ data "aws_route53_zone" "thomaskimble_zone" {
   private_zone = false
 }
 
-data "aws_route53_zone" "thomaskimble_subdomains_zone" {
-  name         = "*.thomaskimble.com"
-  private_zone = false
-}
-
 resource "aws_route53_record" "thomaskimble_records" {
   for_each = {
     for dvo in aws_acm_certificate.thomaskimble_certificate.domain_validation_options : dvo.domain_name => {
-      name    = dvo.resource_record_name
-      record  = dvo.resource_record_value
-      type    = dvo.resource_record_type
-      zone_id = dvo.domain_name == "*.thomaskimble.com" ? data.aws_route53_zone.thomaskimble_subdomains_zone.zone_id : data.aws_route53_zone.thomaskimble_zone.zone_id
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
     }
   }
 
@@ -38,5 +32,5 @@ resource "aws_route53_record" "thomaskimble_records" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = each.value.zone_id
+  zone_id         = data.aws_route53_zone.thomaskimble_zone.zone_id
 }
