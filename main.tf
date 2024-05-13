@@ -17,8 +17,9 @@ resource "aws_acm_certificate" "thomaskimble_certificate" {
 }
 
 resource "aws_acm_certificate_validation" "thomaskimble_certificate_validation" {
-  certificate_arn         = aws_acm_certificate.thomaskimble_certificate[count.index].arn
-  validation_record_fqdns = [for record in aws_route53_record.thomaskimble_records : record.fqdn]
+  count                = length(var.domains)
+  certificate_arn      = aws_acm_certificate.thomaskimble_certificate[count.index].arn
+  validation_record_fqdns = [for record in aws_route53_record.thomaskimble_records[count.index] : record.fqdn]
 }
 
 data "aws_route53_zone" "thomaskimble" {
@@ -28,10 +29,12 @@ data "aws_route53_zone" "thomaskimble" {
 
 resource "aws_route53_record" "thomaskimble_records" {
   for_each = {
-    for dvo in aws_acm_certificate.thomaskimble_certificate.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
+    for idx, cert in aws_acm_certificate.thomaskimble_certificate : cert.domain_name => {
+      for dvo in cert.domain_validation_options : dvo.domain_name => {
+        name   = dvo.resource_record_name
+        record = dvo.resource_record_value
+        type   = dvo.resource_record_type
+      }
     }
   }
 
