@@ -17,14 +17,14 @@ resource "aws_acm_certificate" "thomaskimble_certificate" {
 }
 
 resource "aws_acm_certificate_validation" "thomaskimble_certificate_validation" {
-  for_each             = { for cert in aws_acm_certificate.thomaskimble_certificate : cert.domain_name => cert.arn }
-  certificate_arn      = each.value
+  for_each             = aws_acm_certificate.thomaskimble_certificate
 
-  validation_record_fqdns = flatten([
-    for dvo in aws_acm_certificate.thomaskimble_certificate[each.key].domain_validation_options : 
-      lookup(aws_route53_record.thomaskimble_records, dvo.domain_name, null) != null ? [aws_route53_record.thomaskimble_records[dvo.domain_name].fqdn] : []
-  ])
+  certificate_arn      = each.value.arn
+  validation_record_fqdns = [
+    for dvo in each.value.domain_validation_options : aws_route53_record.thomaskimble_records[dvo.domain_name].fqdn
+  ]
 }
+
 
 data "aws_route53_zone" "thomaskimble" {
   name         = "thomaskimble.com"
