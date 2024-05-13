@@ -73,3 +73,26 @@ resource "aws_amplify_branch" "dev" {
   framework = "React"
   stage     = "DEVELOPMENT"
 }
+
+resource "aws_amplify_domain_association" "thomaskimble" {
+  app_id      = aws_amplify_app.example.id
+  domain_name = "thomaskimble.com"
+
+  # # https://thomaskimble.com
+  # sub_domain {
+  #   branch_name = aws_amplify_branch.main.branch_name
+  #   prefix      = ""
+  # }
+
+  # # https://www.thomaskimble.com
+  # sub_domain {
+  #   branch_name = aws_amplify_branch.main.branch_name
+  #   prefix      = "www"
+  # }
+
+  # https://dev.thomaskimble.com
+  sub_domain {
+    branch_name = aws_amplify_branch.dev.branch_name
+    prefix      = "dev"
+  }
+}
