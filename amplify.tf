@@ -78,6 +78,8 @@ resource "aws_amplify_domain_association" "thomaskimble" {
   app_id      = aws_amplify_app.thomaskimble_frontend.id
   domain_name = "thomaskimble.com"
 
+  wait_for_verification = false
+
   # # https://thomaskimble.com
   # sub_domain {
   #   branch_name = aws_amplify_branch.main.branch_name
