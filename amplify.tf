@@ -45,12 +45,6 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
     target = "https://www.thomaskimble.com"
   }
 
-  custom_rule {
-    source = "http://thomaskimble.com"
-    status = "302"
-    target = "http://www.thomaskimble.com"
-  }
-
   build_spec = <<-EOT
     version: 0.1
     frontend:
