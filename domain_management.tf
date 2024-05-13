@@ -46,5 +46,6 @@ resource "aws_route53_record" "thomaskimble_github_pages_cname_record" {
   zone_id = aws_route53_zone.thomaskimble_zone.zone_id
   name    = "legacy"
   type    = "CNAME"
+  ttl     = 300
   records = ["thomasoliverkimble.github.io."]
 }
