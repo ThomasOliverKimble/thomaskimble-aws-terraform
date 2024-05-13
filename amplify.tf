@@ -75,7 +75,7 @@ resource "aws_amplify_branch" "dev" {
 }
 
 resource "aws_amplify_domain_association" "thomaskimble" {
-  app_id      = aws_amplify_app.example.id
+  app_id      = aws_amplify_app.thomaskimble_frontend.id
   domain_name = "thomaskimble.com"
 
   # # https://thomaskimble.com
