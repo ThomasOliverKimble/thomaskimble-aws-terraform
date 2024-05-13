@@ -34,11 +34,11 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
     target = "/index.html"
   }
 
-  # Setup redirect from http(s)://thomaskimble.com to http(s)://www.thomaskimble.com
+  # Setup redirect from http://thomaskimble.com to http://www.thomaskimble.com
   custom_rule {
-    source = "https://thomaskimble.com"
+    source = "http://thomaskimble.com"
     status = "302"
-    target = "https://www.thomaskimble.com"
+    target = "http://www.thomaskimble.com"
   }
 
   build_spec = <<-EOT
