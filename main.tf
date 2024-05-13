@@ -28,15 +28,16 @@ data "aws_route53_zone" "thomaskimble" {
 }
 
 resource "aws_route53_record" "thomaskimble_records" {
-  for_each = {
-    for idx, cert in aws_acm_certificate.thomaskimble_certificate : cert.domain_name => {
-      for dvo in cert.domain_validation_options : dvo.domain_name => {
-        name   = dvo.resource_record_name
-        record = dvo.resource_record_value
-        type   = dvo.resource_record_type
-      }
+  for_each = tomap({
+    for dvo in flatten([
+      for cert in aws_acm_certificate.thomaskimble_certificate : 
+        cert.domain_validation_options
+    ]) : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
     }
-  }
+  })
 
   allow_overwrite = true
   name            = each.value.name
@@ -45,3 +46,4 @@ resource "aws_route53_record" "thomaskimble_records" {
   type            = each.value.type
   zone_id         = data.aws_route53_zone.thomaskimble.zone_id
 }
+
