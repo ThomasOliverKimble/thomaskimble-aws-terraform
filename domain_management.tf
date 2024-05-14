@@ -1,11 +1,11 @@
 resource "aws_acm_certificate" "thomaskimble_certificate" {
-    domain_name               = "thomaskimble.com"
-    subject_alternative_names = ["*.thomaskimble.com"]
-    validation_method         = "DNS"
+  domain_name               = "thomaskimble.com"
+  subject_alternative_names = ["*.thomaskimble.com"]
+  validation_method         = "DNS"
 
-    lifecycle {
-        create_before_destroy = true
-    }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_acm_certificate_validation" "thomaskimble_certificate_validation" {
@@ -14,7 +14,7 @@ resource "aws_acm_certificate_validation" "thomaskimble_certificate_validation" 
 }
 
 resource "aws_route53_zone" "thomaskimble_zone" {
-    name = "thomaskimble.com"
+  name = "thomaskimble.com"
 }
 
 resource "aws_route53_record" "thomaskimble_records" {
