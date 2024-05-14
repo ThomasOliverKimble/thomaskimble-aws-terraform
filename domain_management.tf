@@ -41,3 +41,43 @@ resource "aws_route53_record" "thomaskimble_github_pages_record" {
   ttl     = 300
   records = ["thomasoliverkimble.github.io."]
 }
+
+resource "aws_route53_record" "thomaskimble_outlook_autodiscover_record" {
+  zone_id = aws_route53_zone.thomaskimble_zone.zone_id
+  name    = "autodiscover"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["autodiscover.outlook.com"]
+}
+
+resource "aws_route53_record" "thomaskimble_email_secureserver_record" {
+  zone_id = aws_route53_zone.thomaskimble_zone.zone_id
+  name    = "email"
+  type    = "CNAME"
+  ttl     = 300
+  records = ["email.secureserver.net"]
+}
+
+resource "aws_route53_record" "thomaskimble_outlook_mx_record" {
+  zone_id = aws_route53_zone.thomaskimble_zone.zone_id
+  name    = "@"
+  type    = "MX"
+  ttl     = 300
+  records = ["0 thomaskimble-com.mail.protection.outlook.com"]
+}
+
+resource "aws_route53_record" "thomaskimble_netorgft_record" {
+  zone_id = aws_route53_zone.thomaskimble_zone.zone_id
+  name    = "@"
+  type    = "TXT"
+  ttl     = 300
+  records = ["NETORGFT11093738.onmicrosoft.com"]
+}
+
+resource "aws_route53_record" "thomaskimble_spf_record" {
+  zone_id = aws_route53_zone.thomaskimble_zone.zone_id
+  name    = "@"
+  type    = "TXT"
+  ttl     = 300
+  records = ["v=spf1 include:secureserver.net -all"]
+}
