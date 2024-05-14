@@ -60,7 +60,7 @@ resource "aws_route53_record" "thomaskimble_email_secureserver_record" {
 
 resource "aws_route53_record" "thomaskimble_outlook_mx_record" {
   zone_id = aws_route53_zone.thomaskimble_zone.zone_id
-  name    = "@"
+  name    = ""
   type    = "MX"
   ttl     = 300
   records = ["0 thomaskimble-com.mail.protection.outlook.com"]
@@ -68,7 +68,7 @@ resource "aws_route53_record" "thomaskimble_outlook_mx_record" {
 
 resource "aws_route53_record" "thomaskimble_txt_records" {
   zone_id = aws_route53_zone.thomaskimble_zone.zone_id
-  name    = "@"
+  name    = ""
   type    = "TXT"
   ttl     = 300
   records = ["NETORGFT11093738.onmicrosoft.com", "v=spf1 include:secureserver.net -all"]
