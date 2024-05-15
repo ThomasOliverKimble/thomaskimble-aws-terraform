@@ -36,8 +36,6 @@ resource "aws_api_gateway_integration" "about_page_content_integration" {
 }
 
 resource "aws_api_gateway_integration_response" "about_page_content_integration_response" {
-  depends_on = [aws_api_gateway_integration.about_page_content_integration]
-
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
   resource_id = aws_api_gateway_resource.about_page_content.id
   http_method = aws_api_gateway_method.about_page_content_method.http_method
