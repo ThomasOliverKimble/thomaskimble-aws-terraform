@@ -82,8 +82,7 @@ resource "aws_api_gateway_method_response" "about_page_content_method_response" 
 }
 
 resource "aws_api_gateway_deployment" "api_deployment" {
-  depends_on = [aws_api_gateway_integration_response.about_page_content_integration_response]
-
+  depends_on  = [aws_api_gateway_integration_response.about_page_content_integration_response]
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
   triggers = {
     redeployment = sha1(jsonencode([
@@ -93,6 +92,7 @@ resource "aws_api_gateway_deployment" "api_deployment" {
       aws_api_gateway_integration.about_page_content_integration.id,
     ]))
   }
+
   lifecycle {
     create_before_destroy = true
   }
