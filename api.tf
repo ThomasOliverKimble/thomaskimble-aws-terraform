@@ -20,20 +20,19 @@ resource "aws_api_gateway_method" "post_method" {
 }
 
 resource "aws_api_gateway_integration" "post_integration" {
-  rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id = aws_api_gateway_resource.get_projects.id
-  http_method = aws_api_gateway_method.post_method.http_method
-  type        = "MOCK"
+  rest_api_id          = aws_api_gateway_rest_api.thomaskimble.id
+  resource_id          = aws_api_gateway_resource.get_projects.id
+  http_method          = aws_api_gateway_method.post_method.http_method
+  type                 = "MOCK"
+  passthrough_behavior = "WHEN_NO_MATCH"
 
   request_templates = {
     "application/json" = <<EOF
-{
-  "statusCode": 200
-}
-EOF
+      {
+        "statusCode": 200
+      }
+      EOF
   }
-
-  passthrough_behavior = "WHEN_NO_MATCH"
 }
 
 resource "aws_api_gateway_integration_response" "post_integration_response" {
@@ -55,7 +54,7 @@ resource "aws_api_gateway_integration_response" "post_integration_response" {
               },
               {
                   "type": "image",
-                  "src": "/images/about/me.jpg",
+                  "src": "/images/about/me.jpg"
               },
               {
                   "type": "header",
@@ -83,7 +82,17 @@ resource "aws_api_gateway_method_response" "post_method_response" {
 }
 
 resource "aws_api_gateway_deployment" "api_deployment" {
-  depends_on  = [aws_api_gateway_method.post_method]
+  depends_on = [
+    aws_api_gateway_method.post_method,
+    aws_api_gateway_integration.post_integration,
+    aws_api_gateway_integration_response.post_integration_response,
+    aws_api_gateway_method_response.post_method_response
+  ]
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  stage_name  = "prod"
+}
+
+resource "aws_api_gateway_stage" "prod" {
+  rest_api_id   = aws_api_gateway_rest_api.thomaskimble.id
+  deployment_id = aws_api_gateway_deployment.api_deployment.id
+  stage_name    = "prod"
 }
