@@ -87,7 +87,7 @@ resource "aws_route53_record" "thomaskimble_api_record" {
 }
 
 resource "aws_route53_record" "thomaskimble_storage_record" {
-  zone_id = aws_route53_zone.thomaskimble_zone.zone_id
+  zone_id = aws_route53_zone.thomaskimble.zone_id
   name    = "storage"
   type    = "CNAME"
   ttl     = 300
