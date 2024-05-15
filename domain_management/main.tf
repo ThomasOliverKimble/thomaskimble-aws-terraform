@@ -85,11 +85,3 @@ resource "aws_route53_record" "thomaskimble_api_record" {
     zone_id                = var.regional_zone_id
   }
 }
-
-resource "aws_route53_record" "thomaskimble_storage_record" {
-  zone_id = aws_route53_zone.thomaskimble.zone_id
-  name    = "storage"
-  type    = "CNAME"
-  ttl     = 300
-  records = [var.bucket_domain_name]
-}
