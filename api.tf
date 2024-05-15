@@ -6,23 +6,23 @@ resource "aws_api_gateway_rest_api" "thomaskimble" {
   }
 }
 
-resource "aws_api_gateway_resource" "get_about_page_content" {
+resource "aws_api_gateway_resource" "about_page_content" {
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
   parent_id   = aws_api_gateway_rest_api.thomaskimble.root_resource_id
-  path_part   = "GetAboutPageContent"
+  path_part   = "AboutPageContent"
 }
 
-resource "aws_api_gateway_method" "get_method" {
+resource "aws_api_gateway_method" "about_page_content_method" {
   rest_api_id   = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id   = aws_api_gateway_resource.get_about_page_content.id
+  resource_id   = aws_api_gateway_resource.about_page_content.id
   http_method   = "GET"
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_integration" "get_integration" {
+resource "aws_api_gateway_integration" "about_page_content_integration" {
   rest_api_id          = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id          = aws_api_gateway_resource.get_about_page_content.id
-  http_method          = aws_api_gateway_method.get_method.http_method
+  resource_id          = aws_api_gateway_resource.about_page_content.id
+  http_method          = aws_api_gateway_method.about_page_content_method.http_method
   type                 = "MOCK"
   passthrough_behavior = "WHEN_NO_MATCH"
 
@@ -35,10 +35,10 @@ resource "aws_api_gateway_integration" "get_integration" {
   }
 }
 
-resource "aws_api_gateway_integration_response" "get_integration_response" {
+resource "aws_api_gateway_integration_response" "about_page_content_integration_response" {
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id = aws_api_gateway_resource.get_about_page_content.id
-  http_method = aws_api_gateway_method.get_method.http_method
+  resource_id = aws_api_gateway_resource.about_page_content.id
+  http_method = aws_api_gateway_method.about_page_content_method.http_method
   status_code = "200"
 
   response_templates = {
@@ -70,10 +70,10 @@ resource "aws_api_gateway_integration_response" "get_integration_response" {
   }
 }
 
-resource "aws_api_gateway_method_response" "get_method_response" {
+resource "aws_api_gateway_method_response" "about_page_content_method_response" {
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id = aws_api_gateway_resource.get_about_page_content.id
-  http_method = aws_api_gateway_method.get_method.http_method
+  resource_id = aws_api_gateway_resource.about_page_content.id
+  http_method = aws_api_gateway_method.about_page_content_method.http_method
   status_code = "200"
 
   response_models = {
@@ -83,18 +83,18 @@ resource "aws_api_gateway_method_response" "get_method_response" {
 
 resource "aws_api_gateway_deployment" "api_deployment" {
   depends_on = [
-    aws_api_gateway_method.get_method,
-    aws_api_gateway_integration.get_integration,
-    aws_api_gateway_integration_response.get_integration_response,
-    aws_api_gateway_method_response.get_method_response
+    aws_api_gateway_method.about_page_content_method,
+    aws_api_gateway_integration.about_page_content_integration,
+    aws_api_gateway_integration_response.about_page_content_integration_response,
+    aws_api_gateway_method_response.about_page_content_method_response
   ]
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
   triggers = {
     redeployment = sha1(jsonencode([
       aws_api_gateway_rest_api.thomaskimble.body,
       aws_api_gateway_rest_api.thomaskimble.root_resource_id,
-      aws_api_gateway_method.get_method.id,
-      aws_api_gateway_integration.get_integration.id,
+      aws_api_gateway_method.about_page_content_method.id,
+      aws_api_gateway_integration.about_page_content_integration.id,
     ]))
   }
   lifecycle {
@@ -109,7 +109,7 @@ resource "aws_api_gateway_stage" "prod" {
 }
 
 output "api_endpoint" {
-  value = "${aws_api_gateway_stage.prod.invoke_url}/GetAboutPageContent"
+  value = "${aws_api_gateway_stage.prod.invoke_url}/${aws_api_gateway_resource.about_page_content.path_part}"
 }
 
 output "api_gateway_url" {
