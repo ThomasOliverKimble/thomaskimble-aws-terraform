@@ -89,4 +89,8 @@ resource "aws_route53_record" "example" {
 resource "aws_api_gateway_domain_name" "thomaskimble_api_gateway_domain_name" {
   certificate_arn = aws_acm_certificate_validation.thomaskimble_certificate_validation.certificate_arn
   domain_name     = "api.thomaskimble.com"
+
+  endpoint_configuration {
+    types = ["EDGE"]
+  }
 }
