@@ -73,3 +73,20 @@ resource "aws_route53_record" "thomaskimble_txt_records" {
   ttl     = 300
   records = ["NETORGFT11093738.onmicrosoft.com", "v=spf1 include:secureserver.net -all"]
 }
+
+resource "aws_route53_record" "example" {
+  zone_id = aws_route53_zone.thomaskimble_zone.zone_id
+  name    = "api"
+  type    = "A"
+
+  alias {
+    evaluate_target_health = true
+    name                   = aws_api_gateway_domain_name.thomaskimble_api_gateway_domain_name.regional_domain_name
+    zone_id                = aws_api_gateway_domain_name.thomaskimble_api_gateway_domain_name.regional_zone_id
+  }
+}
+
+resource "aws_api_gateway_domain_name" "thomaskimble_api_gateway_domain_name" {
+  certificate_arn = aws_acm_certificate_validation.thomaskimble_certificate_validation.certificate_arn
+  domain_name     = "api.thomaskimble.com"
+}
