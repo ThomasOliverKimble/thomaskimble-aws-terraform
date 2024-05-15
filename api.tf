@@ -46,8 +46,7 @@ resource "aws_api_gateway_integration_response" "post_integration_response" {
     "application/json" = <<EOF
       {
           "title": "About Me",
-          "date": "2021-02-27T17:01:34+01:00",
-          "layout": "page",
+          "date": "2024-05-14T15:23:56Z",
           "bodyClass": "page-about",
           "sections": [
               {
@@ -56,8 +55,7 @@ resource "aws_api_gateway_integration_response" "post_integration_response" {
               },
               {
                   "type": "image",
-                  "src": "/images/about/Me.jpg",
-                  "class": "web-image-md"
+                  "src": "/images/about/me.jpg",
               },
               {
                   "type": "header",
@@ -65,7 +63,7 @@ resource "aws_api_gateway_integration_response" "post_integration_response" {
               },
               {
                   "type": "text",
-                  "content": "Hailing originally from England, my early years were marked by a move to Switzerland at three and a subsequent relocation to France. Despite these geographical shifts, my educational journey was primarily Swiss-based. Engineering was a natural choice for me, harmonizing my fascination with maths and science and my keen eye for design and aesthetics. This path has enabled me to merge analytical precision with creative expression, a duality that is evident in my music pursuits. Having been surrounded by music, especially the guitar, from the age of seven, I've explored various musical avenues, playing in bands and experimenting with instruments like the drums and piano."
+                  "content": "Originally from England, I moved to Switzerland when I was three and later to France. My education was mainly in Switzerland, where I pursued engineering—a field that aligned perfectly with my passion for math, science, and design. This combination of interests led me to explore both the analytical and creative sides of my personality, particularly through music. From the age of seven, I was immersed in music, playing in bands and learning instruments like the guitar, drums, and piano."
               }
           ]
       }
