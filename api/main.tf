@@ -104,7 +104,7 @@ resource "aws_api_gateway_stage" "thomaskimble_prod" {
 }
 
 resource "aws_api_gateway_domain_name" "thomaskimble_api_gateway_domain_name" {
-  regional_certificate_arn = var.thomaskimble_certificate_validation_arn
+  regional_certificate_arn = var.certificate_arn
   domain_name              = "api.thomaskimble.com"
 
   endpoint_configuration {

@@ -1,4 +1,4 @@
-variable "thomaskimble_certificate_validation_arn" {
+variable "certificate_arn" {
+  description = "the acm certificate validation for the domain."
   type        = string
-  description = "the acm certificate validation for the thomaskimble.com domain."
 }

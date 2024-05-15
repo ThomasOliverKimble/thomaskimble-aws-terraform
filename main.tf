@@ -23,7 +23,8 @@ module "frontend" {
 }
 
 module "api" {
-  source = "./api"
+  source          = "./api"
+  certificate_arn = module.domain_management.thomaskimble_certificate_validation_arn
 }
 
 module "domain_management" {
