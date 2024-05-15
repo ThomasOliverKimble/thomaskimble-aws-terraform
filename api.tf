@@ -12,6 +12,13 @@ resource "aws_api_gateway_resource" "get_projects" {
   path_part   = "GetProjects"
 }
 
+resource "aws_api_gateway_method" "get_method" {
+  rest_api_id   = aws_api_gateway_rest_api.thomaskimble.id
+  resource_id   = aws_api_gateway_resource.get_projects.id
+  http_method   = "GET"
+  authorization = "NONE"
+}
+
 resource "aws_api_gateway_method" "post_method" {
   rest_api_id   = aws_api_gateway_rest_api.thomaskimble.id
   resource_id   = aws_api_gateway_resource.get_projects.id
@@ -35,10 +42,26 @@ resource "aws_api_gateway_integration" "post_integration" {
   }
 }
 
-resource "aws_api_gateway_integration_response" "post_integration_response" {
+resource "aws_api_gateway_integration" "get_integration" {
+  rest_api_id          = aws_api_gateway_rest_api.thomaskimble.id
+  resource_id          = aws_api_gateway_resource.get_projects.id
+  http_method          = aws_api_gateway_method.get_method.http_method
+  type                 = "MOCK"
+  passthrough_behavior = "WHEN_NO_MATCH"
+
+  request_templates = {
+    "application/json" = <<EOF
+      {
+        "statusCode": 200
+      }
+      EOF
+  }
+}
+
+resource "aws_api_gateway_integration_response" "get_integration_response" {
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
   resource_id = aws_api_gateway_resource.get_projects.id
-  http_method = aws_api_gateway_method.post_method.http_method
+  http_method = aws_api_gateway_method.get_method.http_method
   status_code = "200"
 
   response_templates = {
@@ -70,6 +93,17 @@ resource "aws_api_gateway_integration_response" "post_integration_response" {
   }
 }
 
+resource "aws_api_gateway_method_response" "get_method_response" {
+  rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
+  resource_id = aws_api_gateway_resource.get_projects.id
+  http_method = aws_api_gateway_method.get_method.http_method
+  status_code = "200"
+
+  response_models = {
+    "application/json" = "Empty"
+  }
+}
+
 resource "aws_api_gateway_method_response" "post_method_response" {
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
   resource_id = aws_api_gateway_resource.get_projects.id
@@ -83,6 +117,7 @@ resource "aws_api_gateway_method_response" "post_method_response" {
 
 resource "aws_api_gateway_deployment" "api_deployment" {
   depends_on = [
+    aws_api_gateway_method.get_method,
     aws_api_gateway_method.post_method,
     aws_api_gateway_integration.post_integration,
     aws_api_gateway_integration_response.post_integration_response,
@@ -93,6 +128,7 @@ resource "aws_api_gateway_deployment" "api_deployment" {
     redeployment = sha1(jsonencode([
       aws_api_gateway_rest_api.thomaskimble.body,
       aws_api_gateway_rest_api.thomaskimble.root_resource_id,
+      aws_api_gateway_method.get_method.id,
       aws_api_gateway_method.post_method.id,
       aws_api_gateway_integration.post_integration.id,
     ]))
