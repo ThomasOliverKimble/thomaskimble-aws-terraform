@@ -1,3 +1,4 @@
+# REST API
 resource "aws_api_gateway_rest_api" "thomaskimble" {
   name = "thomaskimble"
 
@@ -6,23 +7,42 @@ resource "aws_api_gateway_rest_api" "thomaskimble" {
   }
 }
 
-resource "aws_api_gateway_resource" "about_page_content" {
-  rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  parent_id   = aws_api_gateway_rest_api.thomaskimble.root_resource_id
-  path_part   = "AboutPageContent"
+
+# Mock responses map data
+locals {
+  mock_responses_get = {
+    about_page_content = "${path.module}/mock_responses/about_page_content.yaml"
+    featured_projects  = "${path.module}/mock_responses/featured_projects.yaml"
+  }
 }
 
-resource "aws_api_gateway_method" "about_page_content_method" {
+data "local_file" "mock_response_get_files" {
+  for_each = local.mock_responses_get
+  filename = each.value
+}
+
+
+# API Gateway mock get calls
+resource "aws_api_gateway_resource" "mock_get_resources" {
+  for_each    = local.mock_responses_get
+  rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
+  parent_id   = aws_api_gateway_rest_api.thomaskimble.root_resource_id
+  path_part   = each.key
+}
+
+resource "aws_api_gateway_method" "mock_get_methods" {
+  for_each      = aws_api_gateway_resource.mock_get_resources
   rest_api_id   = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id   = aws_api_gateway_resource.about_page_content.id
+  resource_id   = each.value.id
   http_method   = "GET"
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_integration" "about_page_content_integration" {
+resource "aws_api_gateway_integration" "mock_get_integrations" {
+  for_each             = aws_api_gateway_method.mock_get_methods
   rest_api_id          = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id          = aws_api_gateway_resource.about_page_content.id
-  http_method          = aws_api_gateway_method.about_page_content_method.http_method
+  resource_id          = each.value.resource_id
+  http_method          = each.value.http_method
   type                 = "MOCK"
   passthrough_behavior = "WHEN_NO_MATCH"
 
@@ -35,45 +55,23 @@ resource "aws_api_gateway_integration" "about_page_content_integration" {
   }
 }
 
-resource "aws_api_gateway_integration_response" "about_page_content_integration_response" {
+resource "aws_api_gateway_integration_response" "mock_get_integration_responses" {
+  for_each    = aws_api_gateway_method.mock_get_methods
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id = aws_api_gateway_resource.about_page_content.id
-  http_method = aws_api_gateway_method.about_page_content_method.http_method
+  resource_id = each.value.resource_id
+  http_method = each.value.http_method
   status_code = "200"
 
   response_templates = {
-    "application/json" = <<EOF
-      {
-          "title": "About Me",
-          "date": "2024-05-14T15:23:56Z",
-          "bodyClass": "page-about",
-          "sections": [
-              {
-                  "type": "text",
-                  "content": "My name is **Thomas Oliver Kimble**, an engineer with a rich blend of skills and interests, encompassing data science, robotics, cloud engineering, and a strong passion for both music and design."
-              },
-              {
-                  "type": "image",
-                  "src": "/images/about/me.jpg"
-              },
-              {
-                  "type": "header",
-                  "content": "Personal Life"
-              },
-              {
-                  "type": "text",
-                  "content": "Originally from England, I moved to Switzerland when I was three and later to France. My education was mainly in Switzerland, where I pursued engineering—a field that aligned perfectly with my passion for math, science, and design. This combination of interests led me to explore both the analytical and creative sides of my personality, particularly through music. From the age of seven, I was immersed in music, playing in bands and learning instruments like the guitar, drums, and piano."
-              }
-          ]
-      }
-    EOF
+    "application/json" = jsonencode(yamldecode(data.local_file.mock_response_get_files[each.key].content))
   }
 }
 
-resource "aws_api_gateway_method_response" "about_page_content_method_response" {
+resource "aws_api_gateway_method_response" "mock_get_method_responses" {
+  for_each    = aws_api_gateway_method.mock_get_methods
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id = aws_api_gateway_resource.about_page_content.id
-  http_method = aws_api_gateway_method.about_page_content_method.http_method
+  resource_id = each.value.resource_id
+  http_method = each.value.http_method
   status_code = "200"
 
   response_models = {
@@ -81,16 +79,16 @@ resource "aws_api_gateway_method_response" "about_page_content_method_response" 
   }
 }
 
+
+# Deployment
 resource "aws_api_gateway_deployment" "api_deployment" {
-  depends_on  = [aws_api_gateway_integration_response.about_page_content_integration_response]
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
   triggers = {
-    redeployment = sha1(jsonencode([
-      aws_api_gateway_rest_api.thomaskimble.body,
-      aws_api_gateway_rest_api.thomaskimble.root_resource_id,
-      aws_api_gateway_method.about_page_content_method.id,
-      aws_api_gateway_integration.about_page_content_integration.id,
-    ]))
+    redeployment = sha1(jsonencode(concat(
+      [aws_api_gateway_rest_api.thomaskimble.body, aws_api_gateway_rest_api.thomaskimble.root_resource_id],
+      [for method in aws_api_gateway_method.mock_get_methods : method.id],
+      [for integration in aws_api_gateway_integration.mock_get_integrations : integration.id]
+    )))
   }
 
   lifecycle {
@@ -98,12 +96,16 @@ resource "aws_api_gateway_deployment" "api_deployment" {
   }
 }
 
+
+# Stages
 resource "aws_api_gateway_stage" "thomaskimble_prod" {
   rest_api_id   = aws_api_gateway_rest_api.thomaskimble.id
   deployment_id = aws_api_gateway_deployment.api_deployment.id
   stage_name    = "prod"
 }
 
+
+# Domain name
 resource "aws_api_gateway_domain_name" "thomaskimble_api_gateway_domain_name" {
   regional_certificate_arn = var.certificate_arn
   domain_name              = "api.thomaskimble.com"
