@@ -103,14 +103,18 @@ resource "aws_api_gateway_stage" "thomaskimble_prod" {
   stage_name    = "prod"
 }
 
-output "api_endpoint" {
-  value = "${aws_api_gateway_stage.prod.invoke_url}/${aws_api_gateway_resource.about_page_content.path_part}"
+resource "aws_api_gateway_domain_name" "thomaskimble_api_gateway_domain_name" {
+  regional_certificate_arn = aws_acm_certificate_validation.thomaskimble_certificate_validation.certificate_arn
+  domain_name              = "api.thomaskimble.com"
+
+  endpoint_configuration {
+    types = ["REGIONAL"]
+  }
 }
 
-output "api_gateway_url" {
-  value = aws_api_gateway_deployment.api_deployment.invoke_url
+resource "aws_api_gateway_base_path_mapping" "thomaskimble_api_gateway_mapping" {
+  api_id      = aws_api_gateway_rest_api.thomaskimble.id
+  stage_name  = aws_api_gateway_stage.thomaskimble_prod.stage_name
+  domain_name = aws_api_gateway_domain_name.thomaskimble_api_gateway_domain_name.domain_name
 }
 
-output "api_deployment_arn" {
-  value = aws_api_gateway_deployment.api_deployment.execution_arn
-}
