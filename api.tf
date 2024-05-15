@@ -2,7 +2,7 @@ resource "aws_api_gateway_rest_api" "thomaskimble" {
   name = "thomaskimble"
 
   endpoint_configuration {
-    types = ["EDGE"]
+    types = ["REGIONAL"]
   }
 }
 
