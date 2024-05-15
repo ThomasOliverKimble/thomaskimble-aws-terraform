@@ -92,6 +92,9 @@ resource "aws_api_gateway_deployment" "api_deployment" {
       aws_api_gateway_integration.about_page_content_integration.id,
     ]))
   }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_api_gateway_stage" "prod" {
