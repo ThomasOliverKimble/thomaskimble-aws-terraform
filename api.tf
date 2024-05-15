@@ -6,22 +6,22 @@ resource "aws_api_gateway_rest_api" "thomaskimble" {
   }
 }
 
-resource "aws_api_gateway_resource" "get_projects" {
+resource "aws_api_gateway_resource" "get_about" {
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
   parent_id   = aws_api_gateway_rest_api.thomaskimble.root_resource_id
-  path_part   = "GetProjects"
+  path_part   = "GetAbout"
 }
 
 resource "aws_api_gateway_method" "get_method" {
   rest_api_id   = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id   = aws_api_gateway_resource.get_projects.id
+  resource_id   = aws_api_gateway_resource.get_about.id
   http_method   = "GET"
   authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "get_integration" {
   rest_api_id          = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id          = aws_api_gateway_resource.get_projects.id
+  resource_id          = aws_api_gateway_resource.get_about.id
   http_method          = aws_api_gateway_method.get_method.http_method
   type                 = "MOCK"
   passthrough_behavior = "WHEN_NO_MATCH"
@@ -37,7 +37,7 @@ resource "aws_api_gateway_integration" "get_integration" {
 
 resource "aws_api_gateway_integration_response" "get_integration_response" {
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id = aws_api_gateway_resource.get_projects.id
+  resource_id = aws_api_gateway_resource.get_about.id
   http_method = aws_api_gateway_method.get_method.http_method
   status_code = "200"
 
@@ -72,7 +72,7 @@ resource "aws_api_gateway_integration_response" "get_integration_response" {
 
 resource "aws_api_gateway_method_response" "get_method_response" {
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id = aws_api_gateway_resource.get_projects.id
+  resource_id = aws_api_gateway_resource.get_about.id
   http_method = aws_api_gateway_method.get_method.http_method
   status_code = "200"
 
@@ -109,7 +109,7 @@ resource "aws_api_gateway_stage" "prod" {
 }
 
 output "api_endpoint" {
-  value = "${aws_api_gateway_stage.prod.invoke_url}/GetProjects"
+  value = "${aws_api_gateway_stage.prod.invoke_url}/GetAbout"
 }
 
 output "api_gateway_url" {
