@@ -2,6 +2,11 @@ resource "aws_s3_bucket" "thomaskimble_storage" {
   bucket = "thomaskimble-storage"
 }
 
+resource "aws_s3_bucket_acl" "thomaskimble_storage_acl" {
+  bucket = aws_s3_bucket.thomaskimble_storage.id
+  acl    = "public-read"
+}
+
 resource "aws_s3_bucket_policy" "thomaskimble_bucket_policy" {
   bucket = aws_s3_bucket.thomaskimble_storage.id
 
