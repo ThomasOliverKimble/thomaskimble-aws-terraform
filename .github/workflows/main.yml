@@ -5,9 +5,9 @@ on:
       - main
   pull_request:
 permissions:
-      id-token: write # This is required for aws oidc connection
-      contents: read # This is required for actions/checkout
-      pull-requests: write # This is required for gh bot to comment PR
+  id-token: write # This is required for aws oidc connection
+  contents: read # This is required for actions/checkout
+  pull-requests: write # This is required for gh bot to comment PR
 env:
   TF_LOG: INFO
   AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -84,7 +84,9 @@ jobs:
 
             </details>
 
-            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*
+
+            **Manual Apply Required**: To apply the plan, [trigger the apply workflow](../../actions/workflows/apply.yml).`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
