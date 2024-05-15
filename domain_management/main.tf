@@ -74,7 +74,7 @@ resource "aws_route53_record" "thomaskimble_txt_records" {
   records = ["NETORGFT11093738.onmicrosoft.com", "v=spf1 include:secureserver.net -all"]
 }
 
-resource "aws_route53_record" "example" {
+resource "aws_route53_record" "thomaskimble_api_record" {
   zone_id = aws_route53_zone.thomaskimble.zone_id
   name    = "api"
   type    = "A"
