@@ -18,10 +18,6 @@ provider "aws" {
 }
 
 # Modules
-module "frontend" {
-  source = "./frontend"
-}
-
 module "api" {
   source          = "./api"
   certificate_arn = module.domain_management.thomaskimble_certificate_validation_arn
@@ -31,4 +27,13 @@ module "domain_management" {
   source               = "./domain_management"
   regional_domain_name = module.api.thomaskimble_api_domain_name
   regional_zone_id     = module.api.thomaskimble_api_zone_id
+  bucket_domain_name   = module.storage.thomaskimble_bucket_domain_name
+}
+
+module "frontend" {
+  source = "./frontend"
+}
+
+module "storage" {
+  source = "./storage"
 }
