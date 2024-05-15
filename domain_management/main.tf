@@ -81,7 +81,7 @@ resource "aws_route53_record" "example" {
 
   alias {
     evaluate_target_health = true
-    name                   = aws_api_gateway_domain_name.thomaskimble_api_gateway_domain_name.regional_domain_name
-    zone_id                = aws_api_gateway_domain_name.thomaskimble_api_gateway_domain_name.regional_zone_id
+    name                   = var.regional_domain_name
+    zone_id                = var.regional_zone_id
   }
 }

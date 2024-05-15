@@ -28,5 +28,7 @@ module "api" {
 }
 
 module "domain_management" {
-  source = "./domain_management"
+  source               = "./domain_management"
+  regional_domain_name = module.api.thomaskimble_api_domain_name
+  regional_zone_id     = module.api.thomaskimble_api_zone_id
 }

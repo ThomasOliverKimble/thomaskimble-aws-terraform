@@ -1,11 +1,7 @@
-output "api_endpoint" {
-  value = "${aws_api_gateway_stage.prod.invoke_url}/${aws_api_gateway_resource.about_page_content.path_part}"
+output "thomaskimble_api_domain_name" {
+  value = aws_api_gateway_domain_name.thomaskimble_api_gateway_domain_name.regional_domain_name
 }
 
-output "api_gateway_url" {
-  value = aws_api_gateway_deployment.api_deployment.invoke_url
-}
-
-output "api_deployment_arn" {
-  value = aws_api_gateway_deployment.api_deployment.execution_arn
+output "thomaskimble_api_zone_id" {
+  value = aws_api_gateway_domain_name.thomaskimble_api_gateway_domain_name.regional_zone_id
 }
