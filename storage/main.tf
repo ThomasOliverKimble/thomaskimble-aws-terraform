@@ -9,7 +9,7 @@ resource "aws_s3_bucket_policy" "thomaskimble_bucket_policy" {
     Statement = [
       {
         Principal = "*"
-        Action    = ["s3:GetObject", ]
+        Action    = ["s3:GetObject"]
         Effect    = "Allow"
         Resource = [
           "arn:aws:s3:::${aws_s3_bucket.thomaskimble_bucket}",
