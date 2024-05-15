@@ -84,11 +84,11 @@ resource "aws_api_gateway_method_response" "mock_get_method_responses" {
 resource "aws_api_gateway_deployment" "api_deployment" {
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
   triggers = {
-    redeployment = sha1(jsonencode(
-      [aws_api_gateway_rest_api.thomaskimble.body, aws_api_gateway_rest_api.thomaskimble.root_resource_id] +
-      [for method in aws_api_gateway_method.mock_get_methods : method.id] +
+    redeployment = sha1(jsonencode(concat(
+      [aws_api_gateway_rest_api.thomaskimble.body, aws_api_gateway_rest_api.thomaskimble.root_resource_id],
+      [for method in aws_api_gateway_method.mock_get_methods : method.id],
       [for integration in aws_api_gateway_integration.mock_get_integrations : integration.id]
-    ))
+    )))
   }
 
   lifecycle {
