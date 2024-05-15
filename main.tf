@@ -18,10 +18,14 @@ provider "aws" {
 }
 
 # Modules
+module "frontend" {
+  source = "./frontend"
+}
+
 module "api" {
   source = "./api"
 }
 
-module "domain" {
-  source = "./domain"
+module "domain_management" {
+  source = "./domain_management"
 }
