@@ -89,10 +89,33 @@ resource "aws_api_gateway_deployment" "api_deployment" {
     aws_api_gateway_method_response.post_method_response
   ]
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_rest_api.thomaskimble.body,
+      aws_api_gateway_rest_api.thomaskimble.root_resource_id,
+      aws_api_gateway_method.post_method.id,
+      aws_api_gateway_integration.post_integration.id,
+    ]))
+  }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_api_gateway_stage" "prod" {
   rest_api_id   = aws_api_gateway_rest_api.thomaskimble.id
   deployment_id = aws_api_gateway_deployment.api_deployment.id
   stage_name    = "prod"
+}
+
+output "api_endpoint" {
+  value = "${aws_api_gateway_stage.prod.invoke_url}/GetProjects"
+}
+
+output "api_gateway_url" {
+  value = aws_api_gateway_deployment.api_deployment.invoke_url
+}
+
+output "api_deployment_arn" {
+  value = aws_api_gateway_deployment.api_deployment.execution_arn
 }
