@@ -1,0 +1,21 @@
+projects:
+  - id: "1"
+    name: swarm
+    imagePath: swarm.png
+    title: drone swarms
+  - id: "2"
+    name: friendship
+    imagePath: friendship.png
+    title: friend prediction
+  - id: "3"
+    name: butterfly
+    imagePath: butterfly.png
+    title: butterfly shelf
+  - id: "4"
+    name: intent
+    imagePath: intent.png
+    title: chatbot intent
+  - id: "5"
+    name: thymio
+    imagePath: thymio.png
+    title: robot navigation
