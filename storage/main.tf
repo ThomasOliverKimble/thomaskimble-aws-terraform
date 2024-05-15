@@ -2,7 +2,7 @@ resource "aws_s3_bucket" "thomaskimble_storage" {
   bucket = "thomaskimble-storage"
 }
 
-resource "aws_s3_bucket_policy" "website_bucket_policy" {
+resource "aws_s3_bucket_policy" "thomaskimble_bucket_policy" {
   bucket = aws_s3_bucket.thomaskimble_storage.id
 
   policy = jsonencode({
