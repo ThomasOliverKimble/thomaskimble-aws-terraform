@@ -16,3 +16,12 @@ terraform {
 provider "aws" {
   region = "eu-west-1"
 }
+
+# Modules
+module "api" {
+  source = "./api"
+}
+
+module "domain" {
+  source = "./domain"
+}

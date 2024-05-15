@@ -117,4 +117,3 @@ resource "aws_api_gateway_base_path_mapping" "thomaskimble_api_gateway_mapping" 
   stage_name  = aws_api_gateway_stage.thomaskimble_prod.stage_name
   domain_name = aws_api_gateway_domain_name.thomaskimble_api_gateway_domain_name.domain_name
 }
-
