@@ -37,7 +37,7 @@ resource "aws_s3_bucket_ownership_controls" "thomaskimble_bucket_acl_ownership" 
 }
 
 resource "aws_s3_bucket_public_access_block" "thomaskimble_bucket_public_access_block" {
-  bucket = aws_s3_bucket.thomaskimble_bucket
+  bucket = aws_s3_bucket.thomaskimble_bucket.id
 
   block_public_acls       = false
   block_public_policy     = false
