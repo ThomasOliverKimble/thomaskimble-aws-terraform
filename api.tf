@@ -97,7 +97,7 @@ resource "aws_api_gateway_deployment" "api_deployment" {
   }
 }
 
-resource "aws_api_gateway_stage" "prod" {
+resource "aws_api_gateway_stage" "thomaskimble_prod" {
   rest_api_id   = aws_api_gateway_rest_api.thomaskimble.id
   deployment_id = aws_api_gateway_deployment.api_deployment.id
   stage_name    = "prod"
