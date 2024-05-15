@@ -13,7 +13,7 @@ resource "aws_acm_certificate_validation" "thomaskimble_certificate_validation" 
   validation_record_fqdns = [for record in aws_route53_record.thomaskimble_records : record.fqdn]
 }
 
-resource "aws_route53_zone" "thomaskimble_zone" {
+resource "aws_route53_zone" "thomaskimble" {
   name = "thomaskimble.com"
 }
 
@@ -31,11 +31,11 @@ resource "aws_route53_record" "thomaskimble_records" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = aws_route53_zone.thomaskimble_zone.zone_id
+  zone_id         = aws_route53_zone.thomaskimble.zone_id
 }
 
 resource "aws_route53_record" "thomaskimble_github_pages_record" {
-  zone_id = aws_route53_zone.thomaskimble_zone.zone_id
+  zone_id = aws_route53_zone.thomaskimble.zone_id
   name    = "legacy"
   type    = "CNAME"
   ttl     = 300
@@ -43,7 +43,7 @@ resource "aws_route53_record" "thomaskimble_github_pages_record" {
 }
 
 resource "aws_route53_record" "thomaskimble_outlook_autodiscover_record" {
-  zone_id = aws_route53_zone.thomaskimble_zone.zone_id
+  zone_id = aws_route53_zone.thomaskimble.zone_id
   name    = "autodiscover"
   type    = "CNAME"
   ttl     = 300
@@ -51,7 +51,7 @@ resource "aws_route53_record" "thomaskimble_outlook_autodiscover_record" {
 }
 
 resource "aws_route53_record" "thomaskimble_email_secureserver_record" {
-  zone_id = aws_route53_zone.thomaskimble_zone.zone_id
+  zone_id = aws_route53_zone.thomaskimble.zone_id
   name    = "email"
   type    = "CNAME"
   ttl     = 300
@@ -59,7 +59,7 @@ resource "aws_route53_record" "thomaskimble_email_secureserver_record" {
 }
 
 resource "aws_route53_record" "thomaskimble_outlook_mx_record" {
-  zone_id = aws_route53_zone.thomaskimble_zone.zone_id
+  zone_id = aws_route53_zone.thomaskimble.zone_id
   name    = ""
   type    = "MX"
   ttl     = 300
@@ -67,9 +67,21 @@ resource "aws_route53_record" "thomaskimble_outlook_mx_record" {
 }
 
 resource "aws_route53_record" "thomaskimble_txt_records" {
-  zone_id = aws_route53_zone.thomaskimble_zone.zone_id
+  zone_id = aws_route53_zone.thomaskimble.zone_id
   name    = ""
   type    = "TXT"
   ttl     = 300
   records = ["NETORGFT11093738.onmicrosoft.com", "v=spf1 include:secureserver.net -all"]
+}
+
+resource "aws_route53_record" "example" {
+  zone_id = aws_route53_zone.thomaskimble.zone_id
+  name    = "api"
+  type    = "A"
+
+  alias {
+    evaluate_target_health = true
+    name                   = var.regional_domain_name
+    zone_id                = var.regional_zone_id
+  }
 }
