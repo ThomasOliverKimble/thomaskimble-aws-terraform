@@ -86,7 +86,7 @@ jobs:
 
             *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*
 
-            **Manual Apply Required**: To apply the plan, [trigger the apply workflow](../../actions/workflows/apply.yml).`;
+            **Manual Apply Required**: To apply the plan, [trigger the apply workflow](./apply.yml).`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
