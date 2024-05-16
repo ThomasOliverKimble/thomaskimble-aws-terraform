@@ -1,6 +1,6 @@
 # Secrets manager for GitHub access
 data "aws_secretsmanager_secret" "secret" {
-  arn = "arn:aws:secretsmanager:eu-west-1:287212251408:secret:ThomasOliverKimble-github-aws-access-token-Smhr9D"
+  name = "ThomasOliverKimble-github-aws-access-token"
 }
 
 data "aws_secretsmanager_secret_version" "current" {
