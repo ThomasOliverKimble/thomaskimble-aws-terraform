@@ -108,7 +108,7 @@ resource "aws_api_gateway_stage" "thomaskimble_prod" {
 # Domain name
 resource "aws_api_gateway_domain_name" "thomaskimble_api_gateway_domain_name" {
   regional_certificate_arn = var.certificate_arn
-  domain_name              = "api.thomaskimble.com"
+  domain_name              = "api.${var.hosted_zone}"
 
   endpoint_configuration {
     types = ["REGIONAL"]

@@ -1,6 +1,7 @@
+# SSL certificate
 resource "aws_acm_certificate" "thomaskimble_certificate" {
-  domain_name               = "thomaskimble.com"
-  subject_alternative_names = ["*.thomaskimble.com"]
+  domain_name               = var.hosted_zone
+  subject_alternative_names = ["*${var.hosted_zone}"]
   validation_method         = "DNS"
 
   lifecycle {
@@ -13,10 +14,14 @@ resource "aws_acm_certificate_validation" "thomaskimble_certificate_validation" 
   validation_record_fqdns = [for record in aws_route53_record.thomaskimble_records : record.fqdn]
 }
 
+
+# Hosted zone
 resource "aws_route53_zone" "thomaskimble" {
-  name = "thomaskimble.com"
+  name = var.hosted_zone
 }
 
+
+# DNS records
 resource "aws_route53_record" "thomaskimble_records" {
   for_each = {
     for dvo in aws_acm_certificate.thomaskimble_certificate.domain_validation_options : dvo.domain_name => {
@@ -83,5 +88,17 @@ resource "aws_route53_record" "thomaskimble_api_record" {
     evaluate_target_health = true
     name                   = var.regional_domain_name
     zone_id                = var.regional_zone_id
+  }
+}
+
+resource "aws_route53_record" "thomaskimble_storage_record" {
+  zone_id = aws_route53_zone.thomaskimble.zone_id
+  name    = "storage"
+  type    = "A"
+
+  alias {
+    name                   = var.cloudfront_distribution_domain_name
+    zone_id                = var.cloudfront_zone_id
+    evaluate_target_health = false
   }
 }

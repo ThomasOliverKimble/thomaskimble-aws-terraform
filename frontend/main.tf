@@ -7,6 +7,7 @@ data "aws_secretsmanager_secret_version" "current" {
   secret_id = data.aws_secretsmanager_secret.secret.id
 }
 
+
 # Applify setup
 resource "aws_amplify_app" "thomaskimble_frontend" {
   name       = "thomaskimble-frontend"
@@ -34,11 +35,11 @@ resource "aws_amplify_app" "thomaskimble_frontend" {
     target = "/index.html"
   }
 
-  # Setup redirect from https://thomaskimble.com to https://www.thomaskimble.com
+  # Setup redirect from https://example.com to https://www.example.com
   custom_rule {
-    source = "https://thomaskimble.com"
+    source = "https://${var.hosted_zone}"
     status = "302"
-    target = "https://www.thomaskimble.com"
+    target = "https://www.${var.hosted_zone}"
   }
 
   build_spec = <<-EOT
@@ -77,25 +78,27 @@ resource "aws_amplify_branch" "dev" {
   stage     = "DEVELOPMENT"
 }
 
+
+# Domain association
 resource "aws_amplify_domain_association" "thomaskimble" {
   app_id      = aws_amplify_app.thomaskimble_frontend.id
-  domain_name = "thomaskimble.com"
+  domain_name = var.hosted_zone
 
   wait_for_verification = false
 
-  # https://thomaskimble.com
+  # https://example.com
   sub_domain {
     branch_name = aws_amplify_branch.main.branch_name
     prefix      = ""
   }
 
-  # https://www.thomaskimble.com
+  # https://www.example.com
   sub_domain {
     branch_name = aws_amplify_branch.main.branch_name
     prefix      = "www"
   }
 
-  # https://dev.thomaskimble.com
+  # https://dev.example.com
   sub_domain {
     branch_name = aws_amplify_branch.dev.branch_name
     prefix      = "dev"
