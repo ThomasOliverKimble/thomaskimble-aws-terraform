@@ -65,6 +65,10 @@ resource "aws_api_gateway_integration_response" "mock_get_integration_responses"
   response_templates = {
     "application/json" = jsonencode(yamldecode(data.local_file.mock_response_get_files[each.key].content))
   }
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
 }
 
 resource "aws_api_gateway_method_response" "mock_get_method_responses" {
@@ -76,6 +80,10 @@ resource "aws_api_gateway_method_response" "mock_get_method_responses" {
 
   response_models = {
     "application/json" = "Empty"
+  }
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
 }
 
@@ -103,7 +111,6 @@ resource "aws_api_gateway_stage" "thomaskimble_prod" {
   deployment_id = aws_api_gateway_deployment.api_deployment.id
   stage_name    = "prod"
 }
-
 
 # Domain name
 resource "aws_api_gateway_domain_name" "thomaskimble_api_gateway_domain_name" {
