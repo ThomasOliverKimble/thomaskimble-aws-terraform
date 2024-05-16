@@ -1,7 +1,7 @@
 # SSL certificate
 resource "aws_acm_certificate" "thomaskimble_certificate" {
   domain_name               = var.hosted_zone
-  subject_alternative_names = ["*${var.hosted_zone}"]
+  subject_alternative_names = ["*.${var.hosted_zone}"]
   validation_method         = "DNS"
 
   lifecycle {
