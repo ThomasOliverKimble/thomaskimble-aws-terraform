@@ -1,6 +1,7 @@
+# SSL certificates
 resource "aws_acm_certificate" "thomaskimble_certificate" {
-  domain_name               = "thomaskimble.com"
-  subject_alternative_names = ["*.thomaskimble.com"]
+  domain_name               = var.hosted_zone
+  subject_alternative_names = ["*.${var.hosted_zone}"]
   validation_method         = "DNS"
 
   lifecycle {
@@ -13,10 +14,31 @@ resource "aws_acm_certificate_validation" "thomaskimble_certificate_validation" 
   validation_record_fqdns = [for record in aws_route53_record.thomaskimble_records : record.fqdn]
 }
 
-resource "aws_route53_zone" "thomaskimble" {
-  name = "thomaskimble.com"
+resource "aws_acm_certificate" "thomaskimble_certificate_us_east_1" {
+  provider                  = aws.us_east_1
+  domain_name               = var.hosted_zone
+  subject_alternative_names = ["*.${var.hosted_zone}"]
+  validation_method         = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
+resource "aws_acm_certificate_validation" "thomaskimble_certificate_validation_us_east_1" {
+  provider                = aws.us_east_1
+  certificate_arn         = aws_acm_certificate.thomaskimble_certificate_us_east_1.arn
+  validation_record_fqdns = [for record in aws_route53_record.thomaskimble_records : record.fqdn]
+}
+
+
+# Hosted zone
+resource "aws_route53_zone" "thomaskimble" {
+  name = var.hosted_zone
+}
+
+
+# DNS records
 resource "aws_route53_record" "thomaskimble_records" {
   for_each = {
     for dvo in aws_acm_certificate.thomaskimble_certificate.domain_validation_options : dvo.domain_name => {
@@ -89,7 +111,11 @@ resource "aws_route53_record" "thomaskimble_api_record" {
 resource "aws_route53_record" "thomaskimble_storage_record" {
   zone_id = aws_route53_zone.thomaskimble.zone_id
   name    = "storage"
-  type    = "CNAME"
-  ttl     = 300
-  records = [var.bucket_domain_name]
+  type    = "A"
+
+  alias {
+    name                   = var.cloudfront_distribution_domain_name
+    zone_id                = var.cloudfront_zone_id
+    evaluate_target_health = false
+  }
 }
