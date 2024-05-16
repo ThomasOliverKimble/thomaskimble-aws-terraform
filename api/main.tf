@@ -135,6 +135,8 @@ resource "aws_api_gateway_integration_response" "options_integration_response" {
   response_templates = {
     "application/json" = ""
   }
+
+  depends_on = [aws_api_gateway_integration.options_integration]
 }
 
 resource "aws_api_gateway_method_response" "options_method_response" {
