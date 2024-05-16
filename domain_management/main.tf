@@ -1,4 +1,4 @@
-# SSL certificate
+# SSL certificates
 resource "aws_acm_certificate" "thomaskimble_certificate" {
   domain_name               = var.hosted_zone
   subject_alternative_names = ["*.${var.hosted_zone}"]
@@ -11,6 +11,22 @@ resource "aws_acm_certificate" "thomaskimble_certificate" {
 
 resource "aws_acm_certificate_validation" "thomaskimble_certificate_validation" {
   certificate_arn         = aws_acm_certificate.thomaskimble_certificate.arn
+  validation_record_fqdns = [for record in aws_route53_record.thomaskimble_records : record.fqdn]
+}
+
+resource "aws_acm_certificate" "thomaskimble_certificate_us_east_1" {
+  provider                  = aws.us_east_1
+  domain_name               = var.hosted_zone
+  subject_alternative_names = ["*.${var.hosted_zone}"]
+  validation_method         = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_acm_certificate_validation" "thomaskimble_certificate_validation_us_east_1" {
+  certificate_arn         = aws_acm_certificate.thomaskimble_certificate_us_east_1.arn
   validation_record_fqdns = [for record in aws_route53_record.thomaskimble_records : record.fqdn]
 }
 

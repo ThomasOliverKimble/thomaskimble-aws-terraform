@@ -1,22 +1,3 @@
-# Providers
-terraform {
-  backend "s3" {}
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-
-  required_version = "~> 1.6"
-}
-
-provider "aws" {
-  region = "eu-west-1"
-}
-
-
 # Locals
 locals {
   hosted_zone = "thomaskimble.com"
@@ -26,13 +7,14 @@ locals {
 # Modules
 module "api" {
   source          = "./api"
-  certificate_arn = module.domain_management.thomaskimble_certificate_validation_arn
+  certificate_arn = module.domain_management.thomaskimble_certificate_arn
   hosted_zone     = local.hosted_zone
 }
 
 module "cdn" {
   source                      = "./cdn"
   bucket_regional_domain_name = module.storage.thomaskimble_bucket_regional_domain_name
+  certificate_arn             = module.domain_management.thomaskimble_certificate_arn_us_east_1
   hosted_zone                 = local.hosted_zone
 }
 
