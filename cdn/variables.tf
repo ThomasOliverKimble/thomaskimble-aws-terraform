@@ -7,8 +7,3 @@ variable "bucket_regional_domain_name" {
   description = "The S3 bucket where content to be delivered is stored."
   type        = string
 }
-
-variable "certificate_arn" {
-  description = "The acm SSL certificate's arn."
-  type        = string
-}

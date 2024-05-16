@@ -33,7 +33,6 @@ module "api" {
 module "cdn" {
   source                      = "./cdn"
   bucket_regional_domain_name = module.storage.thomaskimble_bucket_regional_domain_name
-  certificate_arn             = module.domain_management.thomaskimble_certificate_validation_arn
   hosted_zone                 = local.hosted_zone
 }
 
