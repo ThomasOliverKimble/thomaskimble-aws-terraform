@@ -1,9 +1,27 @@
 projects:
-  butterfly:
+  butterfly_shelf:
     media: []
-  thymio:
+  thymio_navigation:
     media: []
-  friendship:
+  friendship_mobility:
+    media: []
+  chatbot_intent:
+    media: []
+  rocket_crash:
+    media: []
+  epuck_line:
+    media: []
+  drone_swarm:
+    media: []
+  ros_basics:
+    media: []
+  thomaskimble_legacy:
+    media: []
+  guitar_pedals:
+    media: []
+  terraform_iac:
+    media: []
+  thomaskimble_current:
     media: []
 media:
   illustrations:
