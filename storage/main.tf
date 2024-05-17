@@ -1,5 +1,5 @@
 locals {
-  paths = [external.get_paths.result["variable_value"]]
+  paths = [data.external.get_paths.result["variable_value"]]
 }
 
 data "external" "get_paths" {
