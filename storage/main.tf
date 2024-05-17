@@ -1,7 +1,7 @@
 locals {
   structure = yamldecode(file("${path.module}/file_structure.yaml"))
 
-  paths = toset(keys(structure))
+  paths = toset(keys(local.structure))
 }
 
 
