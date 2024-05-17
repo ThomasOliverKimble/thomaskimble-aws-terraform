@@ -57,10 +57,10 @@ while IFS= read -r path; do
     if [[ "$path" == *"colors"* ]]; then
         for color in "${colors[@]}"; do
             modified_path=$(echo "$path" | sed "s/colors/$color/")
-            final_paths+=("$modified_path")
+            final_paths+=("$modified_path/")
         done
     else
-        final_paths+=("$path")
+        final_paths+=("$path/")
     fi
 done <<< "$empty_list_paths"
 
