@@ -2,12 +2,8 @@
 locals {
   structure = yamldecode(file("${path.module}/file_structure.yaml"))
 
-  generate_paths = function(structure, path) {
-    [for k, v in structure : "${path}/${k}/" if can(v)]
-  }
-
   paths = toset(flatten([
-    for k, v in local.structure : local.generate_paths(v, k)
+    for k, v in local.structure : [for subk, subv in v : "${k}/${subk}/"] if can(v)
   ]))
 }
 
