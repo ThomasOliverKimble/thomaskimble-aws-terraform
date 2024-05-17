@@ -5,7 +5,7 @@ sections:
   - type: text
     content: My name is **Thomas Oliver Kimble**, an engineer with a rich blend of skills and interests, encompassing data science, robotics, cloud engineering, and a strong passion for both music and design.
   - type: image
-    src: "/media/images/thomaskimble_full.jpeg"
+    src: "media/images/thomaskimble_full.jpeg"
   - type: header
     content: Personal Life
   - type: text

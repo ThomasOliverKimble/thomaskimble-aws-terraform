@@ -23,7 +23,14 @@ resource "aws_s3_bucket_policy" "thomaskimble_bucket_policy" {
         Principal = "*"
         Action    = ["s3:GetObject"]
         Effect    = "Allow"
+<<<<<<< Updated upstream
         Resource  = ["${aws_s3_bucket.thomaskimble_bucket.arn}/*"]
+=======
+        Resource = [
+          "${aws_s3_bucket.thomaskimble_bucket.arn}",
+          "${aws_s3_bucket.thomaskimble_bucket.arn}/*"
+        ]
+>>>>>>> Stashed changes
       },
     ]
   })
