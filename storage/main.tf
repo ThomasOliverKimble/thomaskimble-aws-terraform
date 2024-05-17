@@ -1,5 +1,5 @@
 locals {
-  paths = [for p in data.external.paths.result.paths : p]
+  paths = [for p in data.external.get_paths.result.paths : p]
 }
 
 data "external" "get_paths" {
