@@ -1,17 +1,16 @@
-# Create local variables for paths
+# Locals
 locals {
-  structure = yamldecode(file("${path.module}/file_structure.yaml"))
-
-  generate_paths = function(structure, path) {
-    [for k, v in structure : "${path}/${k}/" if can(v)]
-  }
-
-  paths = toset(flatten([
-    for k, v in local.structure : local.generate_paths(v, k)
-  ]))
+  paths = { for k, v in data.external.get_paths.result : k => v }
 }
 
 
+# Bash script to get terminal paths
+data "external" "get_paths" {
+  program = ["bash", "${path.module}/file_structure/get_file_structure.sh"]
+}
+
+
+# S3 Bucket
 resource "aws_s3_bucket" "thomaskimble_bucket" {
   bucket = "thomaskimble-storage"
 }
@@ -45,13 +44,8 @@ resource "aws_s3_bucket_ownership_controls" "thomaskimble_bucket_acl_ownership" 
   }
 }
 
-output "paths" {
-  value = local.paths
+resource "aws_s3_object" "create_paths" {
+  for_each = local.paths
+  bucket   = aws_s3_bucket.thomaskimble_bucket.id
+  key      = each.value
 }
-
-# Create S3 objects for each path
-# resource "aws_s3_object" "create_paths" {
-#   for_each = toset(local.paths)
-#   bucket   = aws_s3_bucket.thomaskimble_bucket.id
-#   key      = each.value
-# }
