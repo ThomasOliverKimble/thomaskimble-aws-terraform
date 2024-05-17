@@ -1,4 +1,17 @@
-# S3 Bucket
+# Create local variables for paths
+locals {
+  structure = yamldecode(file("${path.module}/file_structure.yaml"))
+
+  generate_paths = function(structure, path) {
+    [for k, v in structure : "${path}/${k}/" if can(v)]
+  }
+
+  paths = toset(flatten([
+    for k, v in local.structure : local.generate_paths(v, k)
+  ]))
+}
+
+
 resource "aws_s3_bucket" "thomaskimble_bucket" {
   bucket = "thomaskimble-storage"
 }
@@ -31,3 +44,14 @@ resource "aws_s3_bucket_ownership_controls" "thomaskimble_bucket_acl_ownership" 
     object_ownership = "BucketOwnerPreferred"
   }
 }
+
+output "paths" {
+  value = local.paths
+}
+
+# Create S3 objects for each path
+# resource "aws_s3_object" "create_paths" {
+#   for_each = toset(local.paths)
+#   bucket   = aws_s3_bucket.thomaskimble_bucket.id
+#   key      = each.value
+# }
