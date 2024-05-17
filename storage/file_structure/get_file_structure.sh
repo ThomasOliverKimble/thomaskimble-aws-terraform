@@ -26,6 +26,6 @@ yaml_file="${1:-./storage/file_structure/file_structure.yaml}"
 empty_list_paths=$(yq eval '.. | select(tag == "!!seq" and length == 0) | path | join("/")' "$yaml_file")
 
 # Output the paths in a format that Terraform can parse
-echo "["
+echo "{\"paths\": ["
 echo "$empty_list_paths" | awk '{print "\"" $0 "\","}'
-echo "]"
+echo "]}"

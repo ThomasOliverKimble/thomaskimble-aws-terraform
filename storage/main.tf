@@ -1,7 +1,5 @@
 locals {
-  yaml_data = yamldecode(file("${path.module}/file_structure/file_structure.yaml"))
-
-  paths = data.external.get_paths.result
+  paths = [for p in data.external.paths.result.paths : p]
 }
 
 data "external" "get_paths" {
