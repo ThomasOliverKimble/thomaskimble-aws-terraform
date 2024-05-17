@@ -1,5 +1,5 @@
 locals {
-  paths = [data.external.get_paths.result["variable_value"]]
+  paths = flatten([data.external.get_paths.result["variable_value"]])
 }
 
 data "external" "get_paths" {
