@@ -4,9 +4,8 @@ locals {
 }
 
 
-# Bash script to get terminal paths
 data "external" "get_paths" {
-  program = ["bash", "${path.module}/file_structure/get_file_structure.sh"]
+  program = ["bash", "${path.module}/file_structure/get_file_structure.sh", var.yaml_file_path, join(",", var.color_list)]
 }
 
 
