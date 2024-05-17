@@ -1,17 +1,11 @@
 locals {
-  structure = yamldecode(file("${path.module}/file_structure.yaml"))
+  yaml_data = yamldecode(file("${path.module}/file_structure.yaml"))
 
-  layer1 = toset(keys(local.structure))
+  paths = data.external.get_paths.result
+}
 
-  layer2 = {
-    for key in local.layer1 : key => (
-      can(local.structure[key]) && type(local.structure[key]) == "map"
-      ? keys(local.structure[key])
-      : []
-    )
-  }
-
-  paths = local.layer2
+data "external" "get_paths" {
+  program = ["bash", "${path.module}/parse_yaml_yq.sh", "${path.module}/file_structure.yaml"]
 }
 
 
