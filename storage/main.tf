@@ -1,12 +1,16 @@
+# Locals
 locals {
   paths = { for k, v in data.external.get_paths.result : k => v }
 }
 
+
+# Bash script to get terminal paths
 data "external" "get_paths" {
   program = ["bash", "${path.module}/file_structure/get_file_structure.sh"]
 }
 
 
+# S3 Bucket
 resource "aws_s3_bucket" "thomaskimble_bucket" {
   bucket = "thomaskimble-storage"
 }
@@ -40,7 +44,6 @@ resource "aws_s3_bucket_ownership_controls" "thomaskimble_bucket_acl_ownership" 
   }
 }
 
-# Create S3 objects for each path
 resource "aws_s3_object" "create_paths" {
   for_each = local.paths
   bucket   = aws_s3_bucket.thomaskimble_bucket.id
