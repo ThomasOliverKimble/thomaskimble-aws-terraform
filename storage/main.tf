@@ -1,9 +1,16 @@
-# Create local variables for paths
+# Local variables
 locals {
   structure = yamldecode(file("${path.module}/file_structure.yaml"))
 
+  # Function to extract terminal paths from a nested map
   paths = toset(flatten([
-    for k, v in local.structure : [for subk, subv in v : "${k}/${subk}/"] if can(v)
+    for k1, v1 in local.structure : [
+      for k2, v2 in v1 : [
+        for k3, v3 in v2 : "media/${k1}/${k2}/${k3}"
+        if length(v3) == 0
+      ]
+      if length(v2) == 0 || length(flatten([for k3, v3 in v2 : v3])) == 0
+    ]
   ]))
 }
 
@@ -43,7 +50,7 @@ resource "aws_s3_bucket_ownership_controls" "thomaskimble_bucket_acl_ownership" 
 
 # Create S3 objects for each path
 resource "aws_s3_object" "create_paths" {
-  for_each = toset(local.paths)
+  for_each = local.paths
   bucket   = aws_s3_bucket.thomaskimble_bucket.id
   key      = each.value
 }

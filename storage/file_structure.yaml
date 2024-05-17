@@ -1,30 +1,13 @@
 projects:
-  butterfly: []
-  thymio: []
-  friendship: []
+  butterfly:
+    media: []
+  thymio:
+    media: []
+  friendship:
+    media: []
 media:
   illustrations:
-    blue:
-      featured_projects: []
-      logo: []
-      logo_text: []
-      hero: []
-    red:
-      featured_projects: []
-      logo: []
-      logo_text: []
-      hero: []
-    green:
-      featured_projects: []
-      logo: []
-      logo_text: []
-      hero: []
-    purple:
-      featured_projects: []
-      logo: []
-      logo_text: []
-      hero: []
-    orange:
+    colors:
       featured_projects: []
       logo: []
       logo_text: []
