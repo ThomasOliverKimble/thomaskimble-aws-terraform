@@ -42,16 +42,11 @@ find_empty_list_paths() {
     done < "$file"
 }
 
-# Output the paths in a format that Terraform can parse
-echo "{\"paths\": ["
+# Collect all empty list paths
 empty_list_paths=$(find_empty_list_paths "$yaml_file")
-first=true
-while IFS= read -r path; do
-    if $first; then
-        echo -n " \"$path\""
-        first=false
-    else
-        echo -n ", \"$path\""
-    fi
-done <<< "$empty_list_paths"
-echo " ]}"
+
+# Output the paths in a format that Terraform can parse
+# Creating a JSON object with a single key "paths" whose value is a comma-separated string of paths
+echo "{"
+echo "\"paths\": \"$(echo "$empty_list_paths" | tr '\n' ',' | sed 's/,$//')\""
+echo "}"
