@@ -5,7 +5,7 @@ locals {
 
   layer2 = {
     for key in local.layer1 : key => (
-      can(local.structure[key]) && type(local.yaml_content[key]) == "map"
+      can(local.structure[key]) && type(local.structure[key]) == "map"
       ? keys(local.structure[key])
       : []
     )
