@@ -1,11 +1,11 @@
 locals {
-  yaml_data = yamldecode(file("${path.module}/file_structure.yaml"))
+  yaml_data = yamldecode(file("${path.module}/file_structure/file_structure.yaml"))
 
   paths = data.external.get_paths.result
 }
 
 data "external" "get_paths" {
-  program = ["bash", "${path.module}/parse_yaml_yq.sh"]
+  program = ["bash", "${path.module}/file_structure/get_file_structure.sh"]
 }
 
 
