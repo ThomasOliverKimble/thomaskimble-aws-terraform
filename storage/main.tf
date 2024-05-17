@@ -5,7 +5,7 @@ locals {
 }
 
 data "external" "get_paths" {
-  program = ["bash", "${path.module}/parse_yaml_yq.sh", "${path.module}/file_structure.yaml"]
+  program = ["bash", "${path.module}/parse_yaml_yq.sh"]
 }
 
 
