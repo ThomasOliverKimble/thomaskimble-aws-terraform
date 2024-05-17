@@ -1,7 +1,17 @@
 locals {
   structure = yamldecode(file("${path.module}/file_structure.yaml"))
 
-  paths = toset(keys(local.structure))
+  layer1 = toset(keys(local.structure))
+
+  layer2 = {
+    for key in local.layer1 : key => (
+      can(local.structure[key]) && type(local.yaml_content[key]) == "map"
+      ? keys(local.structure[key])
+      : []
+    )
+  }
+
+  paths = local.layer2
 }
 
 
