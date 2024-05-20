@@ -87,9 +87,7 @@ resource "aws_api_gateway_deployment" "api_deployment" {
     redeployment = sha1(jsonencode(concat(
       [aws_api_gateway_rest_api.thomaskimble.body, aws_api_gateway_rest_api.thomaskimble.root_resource_id],
       [for method in aws_api_gateway_method.mock_get_methods : method.id],
-      [for integration in aws_api_gateway_integration.mock_get_integrations : integration.id],
-      [for options_method in aws_api_gateway_method.options_methods : options_method.id],
-      [for options_integration in aws_api_gateway_integration.options_integration : options_integration.id]
+      [for integration in aws_api_gateway_integration.mock_get_integrations : integration.id]
     )))
   }
 
