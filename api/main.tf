@@ -83,6 +83,7 @@ resource "aws_api_gateway_method_response" "mock_get_method_responses" {
 # Deployment
 resource "aws_api_gateway_deployment" "api_deployment" {
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
+  description = "Terraform"
   triggers = {
     redeployment = sha1(jsonencode(concat(
       [aws_api_gateway_rest_api.thomaskimble.body, aws_api_gateway_rest_api.thomaskimble.root_resource_id],
