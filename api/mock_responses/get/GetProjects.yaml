@@ -1,0 +1,27 @@
+projects:
+  - name: butterfly_shelf
+    category: design
+  - name: thymio_navigation
+    category: robotics
+  - name: friendship_mobility
+    category: data science
+  - name: chatbot_intent
+    category: data science
+  - name: rocket_crash
+    category: robotics
+  - name: epuck_line
+    category: robotics
+  - name: drone_swarm
+    category: robotics
+  - name: ros_basics
+    category: robotics
+  - name: thomaskimble_legacy
+    category: design
+  - name: guitar_pedals
+    category: design
+  - name: terraform_iac
+    category: data engineering
+  - name: thomaskimble_terraform
+    category: data engineering
+  - name: thomaskimble_frontend
+    name: design
