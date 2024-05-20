@@ -11,8 +11,9 @@ resource "aws_api_gateway_rest_api" "thomaskimble" {
 # Mock responses map data
 locals {
   mock_responses_get = {
-    about_page_content = "${path.module}/mock_responses/about_page_content.yaml"
-    featured_projects  = "${path.module}/mock_responses/featured_projects.yaml"
+    about_page_content = "${path.module}/mock_responses/GetAboutPageContent.yaml"
+    featured_projects  = "${path.module}/mock_responses/GetFeaturedProjects.yaml"
+    projects           = "${path.module}/mock_responses/GetProjects.yaml"
   }
 }
 
@@ -27,7 +28,7 @@ resource "aws_api_gateway_resource" "mock_get_resources" {
   for_each    = local.mock_responses_get
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
   parent_id   = aws_api_gateway_rest_api.thomaskimble.root_resource_id
-  path_part   = each.key
+  path_part   = replace(basename(each.value), ".yaml", "")
 }
 
 resource "aws_api_gateway_method" "mock_get_methods" {
@@ -65,10 +66,6 @@ resource "aws_api_gateway_integration_response" "mock_get_integration_responses"
   response_templates = {
     "application/json" = jsonencode(yamldecode(data.local_file.mock_response_get_files[each.key].content))
   }
-
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
-  }
 }
 
 resource "aws_api_gateway_method_response" "mock_get_method_responses" {
@@ -81,82 +78,7 @@ resource "aws_api_gateway_method_response" "mock_get_method_responses" {
   response_models = {
     "application/json" = "Empty"
   }
-
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = true
-  }
 }
-
-
-# CORS OPTIONS method for each resource
-resource "aws_api_gateway_method" "options_methods" {
-  for_each      = aws_api_gateway_resource.mock_get_resources
-  rest_api_id   = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id   = each.value.id
-  http_method   = "OPTIONS"
-  authorization = "NONE"
-
-  request_parameters = {
-    "method.request.header.Origin"                         = false
-    "method.request.header.Access-Control-Request-Method"  = false
-    "method.request.header.Access-Control-Request-Headers" = false
-  }
-}
-
-resource "aws_api_gateway_integration" "options_integration" {
-  for_each    = aws_api_gateway_method.options_methods
-  rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id = each.value.resource_id
-  http_method = each.value.http_method
-  type        = "MOCK"
-
-  request_templates = {
-    "application/json" = <<EOF
-      {
-        "statusCode": 200
-      }
-    EOF
-  }
-}
-
-resource "aws_api_gateway_integration_response" "options_integration_response" {
-  for_each    = aws_api_gateway_method.options_methods
-  rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id = each.value.resource_id
-  http_method = each.value.http_method
-  status_code = "200"
-
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-    "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS'"
-    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
-  }
-
-  response_templates = {
-    "application/json" = ""
-  }
-
-  depends_on = [aws_api_gateway_integration.options_integration]
-}
-
-resource "aws_api_gateway_method_response" "options_method_response" {
-  for_each    = aws_api_gateway_method.options_methods
-  rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  resource_id = each.value.resource_id
-  http_method = each.value.http_method
-  status_code = "200"
-
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers" = true
-    "method.response.header.Access-Control-Allow-Methods" = true
-    "method.response.header.Access-Control-Allow-Origin"  = true
-  }
-
-  response_models = {
-    "application/json" = "Empty"
-  }
-}
-
 
 # Deployment
 resource "aws_api_gateway_deployment" "api_deployment" {
