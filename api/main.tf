@@ -11,9 +11,8 @@ resource "aws_api_gateway_rest_api" "thomaskimble" {
 # Mock responses map data
 locals {
   mock_responses_get = {
-    about_page_content = "${path.module}/mock_responses/get/GetAboutPageContent.yaml"
-    featured_projects  = "${path.module}/mock_responses/get/GetFeaturedProjects.yaml"
-    get_projects       = "${path.module}/mock_responses/get/GetProjects.yaml"
+    about_page_content = "${path.module}/mock_responses/about_page_content.yaml"
+    featured_projects  = "${path.module}/mock_responses/featured_projects.yaml"
   }
 }
 
@@ -28,7 +27,7 @@ resource "aws_api_gateway_resource" "mock_get_resources" {
   for_each    = local.mock_responses_get
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
   parent_id   = aws_api_gateway_rest_api.thomaskimble.root_resource_id
-  path_part   = replace(basename(each.value), ".yaml", "")
+  path_part   = each.key
 }
 
 resource "aws_api_gateway_method" "mock_get_methods" {
@@ -68,9 +67,7 @@ resource "aws_api_gateway_integration_response" "mock_get_integration_responses"
   }
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin"  = "'*'",
-    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-    "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS'"
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 }
 
@@ -86,9 +83,7 @@ resource "aws_api_gateway_method_response" "mock_get_method_responses" {
   }
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin"  = true,
-    "method.response.header.Access-Control-Allow-Headers" = true,
-    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
 }
 
@@ -132,8 +127,8 @@ resource "aws_api_gateway_integration_response" "options_integration_response" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-    "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS'",
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS'"
     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
   }
 
@@ -152,8 +147,8 @@ resource "aws_api_gateway_method_response" "options_method_response" {
   status_code = "200"
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers" = true,
-    "method.response.header.Access-Control-Allow-Methods" = true,
+    "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
     "method.response.header.Access-Control-Allow-Origin"  = true
   }
 
