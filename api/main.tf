@@ -11,8 +11,9 @@ resource "aws_api_gateway_rest_api" "thomaskimble" {
 # Mock responses map data
 locals {
   mock_responses_get = {
-    about_page_content = "${path.module}/mock_responses/about_page_content.yaml"
-    featured_projects  = "${path.module}/mock_responses/featured_projects.yaml"
+    about_page_content = "${path.module}/mock_responses/get/GetAboutPageContent.yaml"
+    featured_projects  = "${path.module}/mock_responses/get/GetFeaturedProjects.yaml"
+    get_projects       = "${path.module}/mock_responses/get/GetProjects.yaml"
   }
 }
 
@@ -27,7 +28,7 @@ resource "aws_api_gateway_resource" "mock_get_resources" {
   for_each    = local.mock_responses_get
   rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
   parent_id   = aws_api_gateway_rest_api.thomaskimble.root_resource_id
-  path_part   = each.key
+  path_part   = replace(basename(each.value), ".yaml", "")
 }
 
 resource "aws_api_gateway_method" "mock_get_methods" {
