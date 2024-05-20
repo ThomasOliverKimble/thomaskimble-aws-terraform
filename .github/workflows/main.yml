@@ -56,20 +56,19 @@ jobs:
         if: github.event_name == 'pull_request'
         continue-on-error: false
 
-      - name: Output Terraform Plan
+      - name: Output Terraform Plan to JSON
         id: output-plan
         if: github.event_name == 'pull_request'
-        run: |
-          terraform show -json plan.out > plan.json
-          echo "PLAN=$(jq -c . plan.json)" >> $GITHUB_ENV
+        run: terraform show -json plan.out > plan.json
 
-      - uses: actions/github-script@v6 # Updated to use Node.js 20
+      - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
-        env:
-          PLAN: ${{ env.PLAN }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const fs = require('fs');
+            const plan = JSON.parse(fs.readFileSync('plan.json', 'utf8'));
+
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
@@ -86,7 +85,7 @@ jobs:
             <details><summary>Show Plan</summary>
 
             \`\`\`\n
-            ${process.env.PLAN}
+            ${JSON.stringify(plan, null, 2)}
             \`\`\`
 
             </details>
@@ -98,7 +97,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
-            })
+            });
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
