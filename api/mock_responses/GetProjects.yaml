@@ -1,27 +1,40 @@
 projects:
-  - name: butterfly_shelf
+  - id: 1
+    name: butterfly_shelf
     category: design
-  - name: thymio_navigation
+  - id: 2
+    name: thymio_navigation
     category: robotics
-  - name: friendship_mobility
+  - id: 3
+    name: friendship_mobility
     category: data science
-  - name: chatbot_intent
+  - id: 4
+    name: chatbot_intent
     category: data science
-  - name: rocket_crash
+  - id: 5
+    name: rocket_crash
     category: robotics
-  - name: epuck_line
+  - id: 6
+    name: epuck_line
     category: robotics
-  - name: drone_swarm
+  - id: 7
+    name: drone_swarm
     category: robotics
-  - name: ros_basics
+  - id: 8
+    name: ros_basics
     category: robotics
-  - name: thomaskimble_legacy
+  - id: 9
+    name: thomaskimble_legacy
     category: design
-  - name: guitar_pedals
+  - id: 10
+    name: guitar_pedals
     category: design
-  - name: terraform_iac
+  - id: 11
+    name: terraform_iac
     category: data engineering
-  - name: thomaskimble_terraform
+  - id: 12
+    name: thomaskimble_terraform
     category: data engineering
-  - name: thomaskimble_frontend
+  - id: 13
+    name: thomaskimble_frontend
     category: design
