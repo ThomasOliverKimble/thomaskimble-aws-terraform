@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials from AWS account
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
@@ -52,25 +52,17 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        env:
-          TF_WARN_OUTPUT_ERRORS: "true"
-        run: terraform plan -no-color -out=plan.out
+        run: terraform plan -no-color -compact-warnings
         if: github.event_name == 'pull_request'
         continue-on-error: false
 
-      - name: Output Terraform Plan to JSON
-        id: output-plan
-        if: github.event_name == 'pull_request'
-        run: terraform show -json plan.out > plan.json
-
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const fs = require('fs');
-            const plan = JSON.parse(fs.readFileSync('plan.json', 'utf8'));
-
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
@@ -87,7 +79,7 @@ jobs:
             <details><summary>Show Plan</summary>
 
             \`\`\`\n
-            ${JSON.stringify(plan, null, 2)}
+            ${process.env.PLAN}
             \`\`\`
 
             </details>
@@ -99,7 +91,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
-            });
+            })
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
@@ -107,4 +99,4 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false plan.out
+        run: terraform apply -auto-approve -input=false
