@@ -24,4 +24,4 @@ projects:
   - name: thomaskimble_terraform
     category: data engineering
   - name: thomaskimble_frontend
-    name: design
+    category: design
