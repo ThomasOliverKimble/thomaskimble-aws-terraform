@@ -20,6 +20,10 @@ module "cdn" {
   hosted_zone                 = local.hosted_zone
 }
 
+module "database" {
+  source = "./database"
+}
+
 module "domain_management" {
   source = "./domain_management"
 
