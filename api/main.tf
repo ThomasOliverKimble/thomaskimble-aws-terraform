@@ -137,26 +137,6 @@ resource "aws_api_gateway_method_response" "cors_options_method_responses" {
 }
 
 
-# Deployment
-resource "aws_api_gateway_deployment" "api_deployment" {
-  rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
-  description = "Terraform"
-  triggers = {
-    redeployment = sha1(jsonencode(concat(
-      [aws_api_gateway_rest_api.thomaskimble.body, aws_api_gateway_rest_api.thomaskimble.root_resource_id],
-      [for method in aws_api_gateway_method.mock_get_methods : method.id],
-      [for integration in aws_api_gateway_integration.mock_get_integrations : integration.id],
-      [for method in aws_api_gateway_method.cors_options_methods : method.id],
-      [for integration in aws_api_gateway_integration.cors_options_integration : integration.id]
-    )))
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-
 # Stages
 resource "aws_api_gateway_stage" "thomaskimble_prod" {
   rest_api_id   = aws_api_gateway_rest_api.thomaskimble.id
