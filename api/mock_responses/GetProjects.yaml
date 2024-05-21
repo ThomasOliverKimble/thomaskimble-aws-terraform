@@ -1,40 +1,166 @@
 projects:
   - id: 1
-    name: butterfly_shelf
+    title: Butterfly Shelf
+    date: July 2022
+    context: EPFL MSc - Industrial Design V and VI
+    topics:
+      - Industrial Design
+      - CAD
+      - Rendering
+    github:
+    path: butterfly_shelf
     category: design
   - id: 2
-    name: thymio_navigation
+    title: Navigation and Path Planning for the Thymio Robot
+    date: December 2019
+    context: EPFL MSc - Mobile Robotics
+    topics:
+      - Robotics
+      - Navigation
+      - Obstacle Avoidance
+      - Computer Vision
+      - Filtering
+      - Python
+    github: https://github.com/ThomasOliverKimble/thymio-mobile-robotics
+    path: thymio_navigation
     category: robotics
   - id: 3
-    name: friendship_mobility
+    title: Does Mobility Make or Break Friendships?
+    date: December 2020
+    context:
+    topics:
+      - Data Science
+      - Data Visualisation
+      - Predictive Modeling
+      - Python
+    github: https://github.com/ThomasOliverKimble/mobility-and-friendship
+    path: friendship_mobility
     category: data science
   - id: 4
-    name: chatbot_intent
+    title: Chatbot Intent Detection for Tourism Services
+    date: February 2024
+    context: Personal Project
+    topics:
+      - Data Science
+      - NLP
+      - Classification
+      - Python
+    github: https://github.com/ThomasOliverKimble/intention-detection
+    path: chatbot_intent
     category: data science
   - id: 5
-    name: rocket_crash
+    title: Rocket Crash - A Nintendo DS Game
+    date: January 2020
+    context: EPFL MSc - Microprogrammed Embedded Systems
+    topics:
+      - Software Engineering
+      - Embedded Systems
+      - C Programming
+    github: https://github.com/ThomasOliverKimble/rocket-crash
+    path: rocket_crash
     category: robotics
   - id: 6
-    name: epuck_line
+    title: Line Following e-puck2
+    date: May 2019
+    context: EPFL BSc - Embedded Systems and Robotics
+    topics:
+      - Robotics
+      - C++ Programming
+      - CAD
+    github: https://github.com/ThomasOliverKimble/epuck2-line-follow
+    path: epuck_line
     category: robotics
   - id: 7
-    name: drone_swarm
+    title: Predictive Drone Swarms with Limited FOV
+    date: January 2021
+    context: EPFL MSc - Robotics Project
+    topics:
+      - Robotics
+      - Model Predictive Control (MPC)
+      - Matlab
+      - Drone Swarms
+    github:
+    path: drone_swarm
     category: robotics
   - id: 8
-    name: ros_basics
+    title: ROS Basics
+    date: May 2020
+    context: EPFL MSc - Robotics Practicals
+    topics:
+      - Robotics
+      - ROS
+      - URDF
+      - Python
+    github: https://github.com/ThomasOliverKimble/ros-basics
+    path: ros_basics
     category: robotics
   - id: 9
-    name: thomaskimble_legacy
+    title: Legacy Portfolio Website
+    date: June 2022
+    context: Personal Project
+    topics:
+      - Web Development
+      - Frontend-end
+      - Design
+      - GitHub Pages
+    github: https://github.com/ThomasOliverKimble/thomasoliverkimble.github.io
+    path: thomaskimble_legacy
     category: design
   - id: 10
-    name: guitar_pedals
+    title: Design of a Guitar Effect Pedal Collection
+    date: March 2020
+    context: Personal Project
+    topics:
+      - Electronics Engineering
+      - Industrial Design
+      - CAD
+    github:
+    path: guitar_pedals
     category: design
   - id: 11
-    name: terraform_iac
+    title: Infrastrucure-As-Code for AWS using GitHub Actions
+    date: October 2023
+    context: Personal Project
+    topics:
+      - IAC
+      - AWS
+      - Terraform
+      - GitHub Actions
+    github: https://github.com/ThomasOliverKimble/aws-terraform-action
+    path: terraform_iac
     category: data engineering
   - id: 12
-    name: thomaskimble_terraform
+    title: Terraform for Portfolio Website AWS Infrastructure
+    date: April 2024
+    context: Personal Project
+    topics:
+      - IAC
+      - AWS
+      - Terraform
+      - DevOps
+    github: https://github.com/ThomasOliverKimble/thomaskimble-aws-terraform
+    path: thomaskimble_terraform
     category: data engineering
   - id: 13
-    name: thomaskimble_frontend
+    title: Front-end for Portfolio Website
+    date: April 2024
+    context: Personal Project
+    topics:
+      - Web Development
+      - Front-end
+      - Design
+      - React
+    github: https://github.com/ThomasOliverKimble/thomaskimble-aws-frontend
+    path: thomaskimble_frontend
     category: design
+  - id: 14
+    title: Friendship and Mobility - Paper Replication
+    date: September 2020
+    context:
+    topics:
+      - Data Science
+      - Paper Replication
+      - Python
+    github: https://github.com/ThomasOliverKimble/friendship-paper-replication
+    path: friendship_paper_replication
+    category: data science
