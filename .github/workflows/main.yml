@@ -52,7 +52,9 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -no-warn-output -out=plan.out
+        env:
+          TF_WARN_OUTPUT_ERRORS: "true"
+        run: terraform plan -no-color -out=plan.out
         if: github.event_name == 'pull_request'
         continue-on-error: false
 
