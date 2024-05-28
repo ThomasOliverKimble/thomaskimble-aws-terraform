@@ -156,7 +156,7 @@ projects:
   - id: 13
     title: Friendship and Mobility - Paper Replication
     date: September 2020
-    context:
+    context: EPFL MSc - Applied Data Analysis
     topics:
       - Data Science
       - Paper Replication
