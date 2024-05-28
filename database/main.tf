@@ -10,13 +10,13 @@ resource "aws_dynamodb_table" "projects" {
   }
 
   attribute {
-    name = "name"
+    name = "path"
     type = "S"
   }
 
   global_secondary_index {
-    name            = "name-index"
-    hash_key        = "name"
+    name            = "path-index"
+    hash_key        = "path"
     projection_type = "ALL"
   }
 }
