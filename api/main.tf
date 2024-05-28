@@ -227,6 +227,23 @@ resource "aws_api_gateway_method_response" "cors_options_method_responses" {
 }
 
 
+# Deployment
+resource "aws_api_gateway_deployment" "api_deployment" {
+  rest_api_id = aws_api_gateway_rest_api.thomaskimble.id
+  description = "Terraform"
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_rest_api.thomaskimble.body,
+      aws_api_gateway_rest_api.thomaskimble.root_resource_id,
+    ]))
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+
 # Stages
 resource "aws_api_gateway_stage" "thomaskimble_prod" {
   rest_api_id   = aws_api_gateway_rest_api.thomaskimble.id
