@@ -2,10 +2,10 @@ bodyClass: page-about
 sections:
   - type: title
     title: About Me
-  - type: text
+  - type: intro text
     content: My name is Thomas Kimble, an engineer with a rich blend of skills and interests, encompassing data science, robotics, cloud engineering, and a strong passion for both music and design.
-  - type: image
-    src: "media/images/thomaskimble_full.jpeg"
+  - type: intro image
+    src: "media/images/thomaskimble_headshot.webp"
   - type: header
     content: Personal Life
   - type: text
@@ -28,3 +28,5 @@ sections:
     content: "Career Aspirations"
   - type: text
     content: "Looking ahead, I am eager to explore opportunities in Data Science, Data Engineering, DevOps, and Cloud Engineering. My diverse expertise, coupled with my passion for design and problem-solving, uniquely positions me for roles that demand innovation, technical skill, and a strategic mindset."
+  - type: image
+    src: "media/images/thomaskimble_full.webp"
