@@ -27,7 +27,7 @@ projects:
   - id: 2
     title: Does Mobility Make or Break Friendships?
     date: December 2020
-    context:
+    context: EPFL MSc - Applied Data Analysis
     topics:
       - Data Science
       - Data Visualisation

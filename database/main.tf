@@ -19,4 +19,6 @@ resource "aws_dynamodb_table" "projects" {
     hash_key        = "path"
     projection_type = "ALL"
   }
+
+  deletion_protection_enabled = true
 }
