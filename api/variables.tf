@@ -4,6 +4,11 @@ variable "hosted_zone" {
 }
 
 variable "certificate_arn" {
-  description = "the acm certificate validation for the domain."
+  description = "The acm certificate validation for the domain."
+  type        = string
+}
+
+variable "dynamodb_projects_table_name" {
+  description = "The DynamoDB projects table name."
   type        = string
 }

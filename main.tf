@@ -8,8 +8,9 @@ locals {
 module "api" {
   source = "./api"
 
-  certificate_arn = module.domain_management.thomaskimble_certificate_arn
-  hosted_zone     = local.hosted_zone
+  certificate_arn              = module.domain_management.thomaskimble_certificate_arn
+  hosted_zone                  = local.hosted_zone
+  dynamodb_projects_table_name = module.database.dynamodb_projects_table_name
 }
 
 module "cdn" {
