@@ -8,6 +8,11 @@ variable "certificate_arn" {
   type        = string
 }
 
+variable "dynamodb_projects_table_arn" {
+  description = "The DynamoDB projects table arn."
+  type        = string
+}
+
 variable "dynamodb_projects_table_name" {
   description = "The DynamoDB projects table name."
   type        = string

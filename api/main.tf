@@ -121,7 +121,7 @@ resource "aws_iam_policy" "lambda_dynamodb_policy" {
           "dynamodb:Scan"
         ]
         Effect   = "Allow"
-        Resource = aws_dynamodb_table.projects.arn
+        Resource = var.dynamodb_projects_table_arn
       }
     ]
   })
