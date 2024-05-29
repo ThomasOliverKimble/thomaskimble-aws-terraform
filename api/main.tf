@@ -132,15 +132,21 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_attachment" {
   policy_arn = aws_iam_policy.lambda_dynamodb_policy.arn
 }
 
+data "archive_file" "get_projects_lambda" {
+  type        = "zip"
+  source_file = "${path.module}/lambda/get_projects.py"
+  output_path = "${path.module}/lambda/get_projects.zip"
+}
+
 resource "aws_lambda_function" "get_projects" {
   function_name = "GetProjectsFunction"
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.10"
   role          = aws_iam_role.lambda_execution_role.arn
 
-  filename = "${path.module}/lambda/get_projects.py"
+  filename = "${path.module}/lambda/get_projects.zip"
 
-  source_code_hash = filebase64sha256("${path.module}/lambda/get_projects.py")
+  source_code_hash = data.archive_file.get_projects_lambda.output_base64sha256
 
   environment {
     variables = {
