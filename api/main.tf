@@ -140,7 +140,7 @@ data "archive_file" "get_projects_lambda" {
 
 resource "aws_lambda_function" "get_projects" {
   function_name = "GetProjectsFunction"
-  handler       = "lambda_function.lambda_handler"
+  handler       = "get_projects.lambda_handler"
   runtime       = "python3.10"
   role          = aws_iam_role.lambda_execution_role.arn
 

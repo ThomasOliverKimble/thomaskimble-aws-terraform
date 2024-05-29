@@ -3,6 +3,8 @@ import json
 import boto3
 import logging
 
+from decimal import Decimal
+
 # Configure logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -14,6 +16,13 @@ if not table_name:
     raise ValueError("DYNAMODB_TABLE_NAME environment variable is not set")
 
 table = dynamodb.Table(table_name)
+
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
 
 
 def lambda_handler(event, context):
@@ -30,7 +39,7 @@ def lambda_handler(event, context):
 
         return {
             "statusCode": 200,
-            "body": json.dumps(items),
+            "body": json.dumps(items, cls=DecimalEncoder),
             "headers": {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "GET,OPTIONS",
