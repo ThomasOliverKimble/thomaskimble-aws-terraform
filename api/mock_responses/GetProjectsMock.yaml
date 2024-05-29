@@ -1,5 +1,5 @@
 projects:
-  - id: 1
+  - id: 0
     title: Butterfly Shelf
     date: July 2022
     context: EPFL MSc - Industrial Design V and VI
@@ -10,7 +10,7 @@ projects:
     github:
     path: butterfly_shelf
     category: design
-  - id: 2
+  - id: 1
     title: Navigation and Path Planning for the Thymio Robot
     date: December 2019
     context: EPFL MSc - Mobile Robotics
@@ -24,10 +24,10 @@ projects:
     github: https://github.com/ThomasOliverKimble/thymio-mobile-robotics
     path: thymio_navigation
     category: robotics
-  - id: 3
+  - id: 2
     title: Does Mobility Make or Break Friendships?
     date: December 2020
-    context:
+    context: EPFL MSc - Applied Data Analysis
     topics:
       - Data Science
       - Data Visualisation
@@ -36,7 +36,7 @@ projects:
     github: https://github.com/ThomasOliverKimble/mobility-and-friendship
     path: friendship_mobility
     category: data science
-  - id: 4
+  - id: 3
     title: Chatbot Intent Detection for Tourism Services
     date: February 2024
     context: Personal Project
@@ -48,7 +48,7 @@ projects:
     github: https://github.com/ThomasOliverKimble/intention-detection
     path: chatbot_intent
     category: data science
-  - id: 5
+  - id: 4
     title: Rocket Crash - A Nintendo DS Game
     date: January 2020
     context: EPFL MSc - Microprogrammed Embedded Systems
@@ -59,7 +59,7 @@ projects:
     github: https://github.com/ThomasOliverKimble/rocket-crash
     path: rocket_crash
     category: robotics
-  - id: 6
+  - id: 5
     title: Line Following e-puck2
     date: May 2019
     context: EPFL BSc - Embedded Systems and Robotics
@@ -70,7 +70,7 @@ projects:
     github: https://github.com/ThomasOliverKimble/epuck2-line-follow
     path: epuck_line
     category: robotics
-  - id: 7
+  - id: 6
     title: Predictive Drone Swarms with Limited FOV
     date: January 2021
     context: EPFL MSc - Robotics Project
@@ -82,7 +82,7 @@ projects:
     github:
     path: drone_swarm
     category: robotics
-  - id: 8
+  - id: 7
     title: ROS Basics
     date: May 2020
     context: EPFL MSc - Robotics Practicals
@@ -94,7 +94,7 @@ projects:
     github: https://github.com/ThomasOliverKimble/ros-basics
     path: ros_basics
     category: robotics
-  - id: 9
+  - id: 8
     title: Legacy Portfolio Website
     date: June 2022
     context: Personal Project
@@ -106,7 +106,7 @@ projects:
     github: https://github.com/ThomasOliverKimble/thomasoliverkimble.github.io
     path: thomaskimble_legacy
     category: design
-  - id: 10
+  - id: 9
     title: Design of a Guitar Effect Pedal Collection
     date: March 2020
     context: Personal Project
@@ -117,7 +117,7 @@ projects:
     github:
     path: guitar_pedals
     category: design
-  - id: 11
+  - id: 10
     title: Infrastrucure-As-Code for AWS using GitHub Actions
     date: October 2023
     context: Personal Project
@@ -129,7 +129,7 @@ projects:
     github: https://github.com/ThomasOliverKimble/aws-terraform-action
     path: terraform_iac
     category: data engineering
-  - id: 12
+  - id: 11
     title: Terraform for Portfolio Website AWS Infrastructure
     date: April 2024
     context: Personal Project
@@ -141,7 +141,7 @@ projects:
     github: https://github.com/ThomasOliverKimble/thomaskimble-aws-terraform
     path: thomaskimble_terraform
     category: data engineering
-  - id: 13
+  - id: 12
     title: Front-end for Portfolio Website
     date: April 2024
     context: Personal Project
@@ -153,10 +153,10 @@ projects:
     github: https://github.com/ThomasOliverKimble/thomaskimble-aws-frontend
     path: thomaskimble_frontend
     category: design
-  - id: 14
+  - id: 13
     title: Friendship and Mobility - Paper Replication
     date: September 2020
-    context:
+    context: EPFL MSc - Applied Data Analysis
     topics:
       - Data Science
       - Paper Replication

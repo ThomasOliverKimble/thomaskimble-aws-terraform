@@ -8,8 +8,10 @@ locals {
 module "api" {
   source = "./api"
 
-  certificate_arn = module.domain_management.thomaskimble_certificate_arn
-  hosted_zone     = local.hosted_zone
+  certificate_arn              = module.domain_management.thomaskimble_certificate_arn
+  hosted_zone                  = local.hosted_zone
+  dynamodb_projects_table_arn  = module.database.dynamodb_projects_table_arn
+  dynamodb_projects_table_name = module.database.dynamodb_projects_table_name
 }
 
 module "cdn" {
@@ -18,6 +20,10 @@ module "cdn" {
   bucket_regional_domain_name = module.storage.thomaskimble_bucket_regional_domain_name
   certificate_arn             = module.domain_management.thomaskimble_certificate_arn_us_east_1
   hosted_zone                 = local.hosted_zone
+}
+
+module "database" {
+  source = "./database"
 }
 
 module "domain_management" {
